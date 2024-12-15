@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 import com.project.commons.DBConfiguration;
 import com.project.commons.LoggerApp;
 import com.project.model.AdminModel;
-import com.project.service.AdminService;
 import com.project.service.AdminServiceImpl;
+import com.project.service.IAdminService;
 
 public class RestaurantManagementSystem  {
 	
@@ -17,7 +17,7 @@ public class RestaurantManagementSystem  {
 		Scanner sc=new Scanner(System.in);
 		Logger logger = LoggerApp.getLogger();
 		DBConfiguration.getInstance();
-		AdminService adminService=new AdminServiceImpl();
+		IAdminService adminService=new AdminServiceImpl();
 		logger.info("main method execute........");
 		System.out.println("Enter Your Username ");
 		String username=sc.nextLine();
