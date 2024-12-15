@@ -13,7 +13,7 @@ import com.project.service.AdminServiceImpl;
 public class RestaurantManagementSystem  {
 	
 	public static void main(String[] args) {
-		
+		System.out.println("start the main");
 		Scanner sc=new Scanner(System.in);
 		Logger logger = LoggerApp.getLogger();
 		DBConfiguration.getInstance();
