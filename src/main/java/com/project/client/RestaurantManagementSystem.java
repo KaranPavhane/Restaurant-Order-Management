@@ -4,11 +4,9 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.project.commons.DBConfiguration;
 import com.project.commons.LoggerApp;
-import com.project.model.AdminModel;
-import com.project.service.AdminServiceImpl;
-import com.project.service.IAdminService;
+import com.project.staticMethods.AdminPannelOperations;
+import com.project.staticMethods.CustomerOperations;
 
 public class RestaurantManagementSystem  {
 	
@@ -16,28 +14,36 @@ public class RestaurantManagementSystem  {
 		
 		Scanner sc=new Scanner(System.in);
 		Logger logger = LoggerApp.getLogger();
-		DBConfiguration.getInstance();
-		IAdminService adminService=new AdminServiceImpl();
-		logger.info("main method execute........");
-		System.out.println("Enter Your Username ");
-		String username=sc.nextLine();
-		System.out.println("Enter Your Password ");
-		String password=sc.nextLine();
-		System.out.println("Enter Your Date of Birth ");
-		String dob=sc.nextLine();
-		AdminModel model=new AdminModel();
-		model.setAdmin_username(username);
-		model.setAdmin_pass(password);
-		model.setDob(dob);
 		
-		boolean b=adminService.isAddNewAdmin(model);
-		if(b) {
-			System.out.println("New Admin added.......");
-		}else {
-			System.out.println("not added ");
+		logger.info("Main Method Started...");
+		
+		System.out.println("<<==== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ====>>");
+		System.out.println(" << ENTER 1 FOR ADMIN PANNAL MANAGEMENT >> ");
+		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
+		System.out.println("<<=======================================>>");
+		int choice=sc.nextInt();
+		
+		switch(choice) {
+		case 3: 
+			AdminPannelOperations.addAdmin();
+			break;
+			
+		
+		case 2:
+			CustomerOperations.callCustomerOperations();
+			break;
+			
+			
+		case 1: 
+			AdminPannelOperations.loginAsAdmin();
+			break;
+		default :System.out.println("ENTER VALID CHOICE ");
+		
+		
 		}
+				
 		
-		
+		logger.info("Main Method End...");
 		
 	}
 }
