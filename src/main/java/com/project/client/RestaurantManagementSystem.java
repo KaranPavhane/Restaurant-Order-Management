@@ -45,7 +45,6 @@ public class RestaurantManagementSystem  {
 		
 		
 		}
-			logger.error("not pass -ve number");	
 		
 		logger.info("Main Method End...");
 		
