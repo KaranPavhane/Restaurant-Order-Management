@@ -7,6 +7,7 @@ import java.util.Scanner;
 import com.project.model.CategeryModel;
 import com.project.model.MenuModel;
 import com.project.model.PlaceOrderModel;
+import com.project.model.TableModel;
 import com.project.service.CustomerServiceImpl;
 import com.project.service.ICustomerService;
 
@@ -16,7 +17,7 @@ public class CustomerOperations {
 	static Scanner sc=new Scanner(System.in);
 	
 	public static void callCustomerOperations() {
-		
+		availableTable();
 		System.out.println("ENTER YOUR NAME");
 		String cust_Name=sc.nextLine();
 		System.out.println("Enter Your Contact");
@@ -36,6 +37,7 @@ public class CustomerOperations {
 			String menu_name=sc.nextLine();
 			System.out.println("Enter Quantity");
 			int qty=sc.nextInt();
+			
 			
 			MenuModel menuModel=new MenuModel();
 			menuModel.setMenu_name(menu_name);
@@ -63,8 +65,7 @@ public class CustomerOperations {
 			System.out.println("Your Order Comes Within 10 Minutes ");
 		}else {
 			System.out.println("Some Thing Issuee....");
-		}
-				
+		}			
 	}
 	
 // call ViewAll Category
@@ -86,6 +87,21 @@ public class CustomerOperations {
 			System.out.println(model.getMenu_id()+"\t"+model.getMenu_name()+"\t"+model.getPrice()+"\t"+model.getDescription());
 		}
 		System.out.println("======================================");
+	}
+	
+	
+	public static void availableTable() {
+		
+			List<TableModel> tableModel=custService.availableTable();
+			if(tableModel!=null) {
+				System.out.println("Tables Available");
+				for(TableModel model : tableModel) {
+					System.out.println(model.getTable_id()+"\t"+model.getTable_number()+"\t"+model.getCapacity()+"\t"+model.getTable_status());
+				}
+			}else {
+				System.out.println("table not present");
+			}
+				
 	}
 	
 }

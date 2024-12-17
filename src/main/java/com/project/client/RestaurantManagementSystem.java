@@ -9,7 +9,6 @@ import com.project.staticMethods.AdminPannelOperations;
 import com.project.staticMethods.CustomerOperations;
 
 public class RestaurantManagementSystem  {
-	
 	public static void main(String[] args) {
 		
 		Scanner sc=new Scanner(System.in);
@@ -22,6 +21,7 @@ public class RestaurantManagementSystem  {
 		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
 		System.out.println("<<=======================================>>");
 		int choice=sc.nextInt();
+		System.out.println("Rusuuuuuuuuuuuuuuuuuuu kadi yenar");
 		
 		switch(choice) {
 		case 3: 
@@ -42,7 +42,6 @@ public class RestaurantManagementSystem  {
 		
 		}
 				
-		
 		logger.info("Main Method End...");
 		
 	}

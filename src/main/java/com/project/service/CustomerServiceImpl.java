@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.model.CategeryModel;
 import com.project.model.MenuModel;
 import com.project.model.PlaceOrderModel;
+import com.project.model.TableModel;
 import com.project.repository.CustomerRepoImpl;
 import com.project.repository.ICustomerRepo;
 
@@ -23,6 +24,11 @@ public class CustomerServiceImpl implements ICustomerService {
 	public boolean isPlacedNewOrder(PlaceOrderModel placeOrder) {
 		// TODO Auto-generated method stub
 		return custRepo.isPlacedNewOrder(placeOrder);
+	}
+	@Override
+	public List<TableModel> availableTable() {
+		// TODO Auto-generated method stub
+		return custRepo.availableTable();
 	}
 	
 }

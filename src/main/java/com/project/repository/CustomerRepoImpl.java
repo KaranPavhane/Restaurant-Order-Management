@@ -7,77 +7,77 @@ import com.project.commons.DBConfig;
 import com.project.model.CategeryModel;
 import com.project.model.MenuModel;
 import com.project.model.PlaceOrderModel;
+import com.project.model.TableModel;
 
-public class CustomerRepoImpl extends DBConfig implements ICustomerRepo{
+public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 
-	
 	@Override
 	public List<CategeryModel> getAllCategery() {
-		List<CategeryModel> list=null;
+		List<CategeryModel> list = null;
 		try {
-			ps=con.prepareStatement("SELECT * FROM CATEGERY_MASTER");
-			rs=ps.executeQuery();
-			list=new ArrayList<CategeryModel>();
-			while(rs.next()) {
-				CategeryModel model=new CategeryModel();
+			ps = con.prepareStatement("SELECT * FROM CATEGERY_MASTER");
+			rs = ps.executeQuery();
+			list = new ArrayList<CategeryModel>();
+			while (rs.next()) {
+				CategeryModel model = new CategeryModel();
 				model.setCategery_id(rs.getInt("categery_id"));
 				model.setCategery_name(rs.getString("categery_name"));
-				
+
 				list.add(model);
-				
+
 			}
 			return list;
-		}catch(Exception ex) {
-			System.out.println("SQL error : "+ex);
+		} catch (Exception ex) {
+			System.out.println("SQL error : " + ex);
 		}
-		
+
 		return list;
 	}
-	
+
 	public int getCategeryIdByName(String cat_Name) {
 		try {
-				ps=con.prepareStatement("select Categery_id from categery_master where Categery_name=?");
-				ps.setString(1, cat_Name);
-				rs=ps.executeQuery();
-				if(rs.next()) {
-					int categery_Id=rs.getInt("Categery_id");
-					if(categery_Id>0) {
-						return categery_Id;
-					}else {
-						return -1;
-					}
+			ps = con.prepareStatement("select Categery_id from categery_master where Categery_name=?");
+			ps.setString(1, cat_Name);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				int categery_Id = rs.getInt("Categery_id");
+				if (categery_Id > 0) {
+					return categery_Id;
+				} else {
+					return -1;
 				}
-			
-		}catch(Exception ex) {
-			System.out.println("Error is : "+ex);
+			}
+
+		} catch (Exception ex) {
+			System.out.println("Error is : " + ex);
 		}
 		return 0;
-		
+
 	}
 
 	@Override
 	public List<MenuModel> getMenuByCategery(String cat_Name) {
-		List<MenuModel> list=null;
-		int categery_Id =this.getCategeryIdByName(cat_Name);
-		System.out.println("Categery is :: "+categery_Id);
-	
+		List<MenuModel> list = null;
+		int categery_Id = this.getCategeryIdByName(cat_Name);
+		System.out.println("Categery is :: " + categery_Id);
+
 		try {
-			ps=con.prepareStatement("Select * from menu_master where categery_id=?");
+			ps = con.prepareStatement("Select * from menu_master where categery_id=?");
 			ps.setInt(1, categery_Id);
-			rs=ps.executeQuery();
-			list=new ArrayList<MenuModel>();
-			while(rs.next()) {
-				MenuModel model=new MenuModel();
+			rs = ps.executeQuery();
+			list = new ArrayList<MenuModel>();
+			while (rs.next()) {
+				MenuModel model = new MenuModel();
 				model.setMenu_id(rs.getInt("menu_id"));
 				model.setMenu_name(rs.getString("menu_Name"));
 				model.setPrice(rs.getInt("price"));
 				model.setDescription(rs.getString("Description"));
-				
+
 				list.add(model);
 			}
 			return list;
-		}catch(Exception ex) {
-			System.out.println("Error is :"+ex);
+		} catch (Exception ex) {
+			System.out.println("Error is :" + ex);
 		}
 		return null;
 	}
@@ -86,97 +86,124 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo{
 	public boolean isPlacedNewOrder(PlaceOrderModel placeOrder) {
 
 		try {
-			String cust_Name=placeOrder.getCust_Name();
-			int contact =placeOrder.getContact();
-			List<MenuModel> menuModel=placeOrder.getList();
-			
-			ps=con.prepareStatement("insert into customer_master values ('0',?,?)");
+			String cust_Name = placeOrder.getCust_Name();
+			int contact = placeOrder.getContact();
+			List<MenuModel> menuModel = placeOrder.getList();
+
+			ps = con.prepareStatement("insert into customer_master values ('0',?,?)");
 			ps.setString(1, cust_Name);
 			ps.setInt(2, contact);
-			int value=ps.executeUpdate();
-			if(value>0) {
-				int custId=getCustomerIdByName(contact);
-				System.out.println("CustId :: "+custId);
-				ps=con.prepareStatement("insert into order_master values ('0',?)");
+			int value = ps.executeUpdate();
+			if (value > 0) {
+				int custId = getCustomerIdByName(contact);
+				System.out.println("CustId :: " + custId);
+				ps = con.prepareStatement("insert into order_master values ('0',?)");
 				ps.setInt(1, custId);
-				value=ps.executeUpdate();
-				if(value>0) {
-					int orderId=this.getOrderIdByCustomerId(custId);
-					System.out.println("Order id : "+orderId);
-					for(MenuModel model:menuModel) {
-						String menu_name=model.getMenu_name();
-						int menu_id=getMenuIdByMenuName(menu_name);
-						int qty=model.getQty();
-						System.out.println("Menu Name : "+menu_name);
-						System.out.println("Menu Id : "+menu_id);
-						System.out.println("Menu QTY : "+qty);
-						
-						ps=con.prepareStatement("insert into order_menu_join values (?,?,?)");
+				value = ps.executeUpdate();
+				if (value > 0) {
+					int orderId = this.getOrderIdByCustomerId(custId);
+					System.out.println("Order id : " + orderId);
+					for (MenuModel model : menuModel) {
+						String menu_name = model.getMenu_name();
+						int menu_id = getMenuIdByMenuName(menu_name);
+						int qty = model.getQty();
+						System.out.println("Menu Name : " + menu_name);
+						System.out.println("Menu Id : " + menu_id);
+						System.out.println("Menu QTY : " + qty);
+
+						ps = con.prepareStatement("insert into order_menu_join values (?,?,?)");
 						ps.setInt(1, orderId);
 						ps.setInt(2, menu_id);
 						ps.setInt(3, qty);
-						value=ps.executeUpdate();
+						value = ps.executeUpdate();
 					}
-					if(value>0) {
+					if (value > 0) {
 						return true;
 					}
 				}
-				
-			}else {
+
+			} else {
 				System.out.println("Customer not added ");
 			}
-				
-		}catch(Exception ex) {
-			System.out.println("Error in PlaceOrder method : "+ex);
+
+		} catch (Exception ex) {
+			System.out.println("Error in PlaceOrder method : " + ex);
 		}
 		return false;
 	}
-	
+
 	public int getCustomerIdByName(int contact) {
-		
+
 		try {
-			ps=con.prepareStatement("select cust_id from customer_master where contact=?");
+			ps = con.prepareStatement("select cust_id from customer_master where contact=?");
 			ps.setInt(1, contact);
-			rs=ps.executeQuery();
-			while(rs.next()) {
+			rs = ps.executeQuery();
+			while (rs.next()) {
 				return rs.getInt(1);
 			}
-		}catch(Exception ex) {
-			System.out.println("Error in getCustomerIdByName : "+ex);
+		} catch (Exception ex) {
+			System.out.println("Error in getCustomerIdByName : " + ex);
 		}
 		return 0;
 	}
-	
+
 	public int getOrderIdByCustomerId(int custId) {
-		
+
 		try {
-			ps=con.prepareStatement("select order_id from order_master where cust_id=?");
+			ps = con.prepareStatement("select order_id from order_master where cust_id=?");
 			ps.setInt(1, custId);
-			rs=ps.executeQuery();
-			while(rs.next()) {
+			rs = ps.executeQuery();
+			while (rs.next()) {
 				return rs.getInt(1);
 			}
-			
-		}catch(Exception ex) {
-			System.out.println("Error in getOrderIdByCustomerId : "+ex);
+
+		} catch (Exception ex) {
+			System.out.println("Error in getOrderIdByCustomerId : " + ex);
 		}
 		return 0;
 	}
-	
+
 	public int getMenuIdByMenuName(String menu_name) {
-	
+
 		try {
-			ps=con.prepareStatement("select menu_id from menu_master where menu_name=?");
+			ps = con.prepareStatement("select menu_id from menu_master where menu_name=?");
 			ps.setString(1, menu_name);
-			rs=ps.executeQuery();
-			while(rs.next()) {
+			rs = ps.executeQuery();
+			while (rs.next()) {
 				return rs.getInt(1);
 			}
-		}catch(Exception ex) {
-			System.out.println("Error in getMenuIdByMenuName :: "+ex);
+		} catch (Exception ex) {
+			System.out.println("Error in getMenuIdByMenuName :: " + ex);
 		}
-		
-		
 		return 0;
 	}
+
+	@Override
+	public List<TableModel> availableTable() {
+
+		List<TableModel> tableList=null;
+		try {
+			ps = con.prepareStatement("Select * from resto_table where status=?");
+			ps.setString(1, "available");
+
+			rs = ps.executeQuery();
+			tableList=new ArrayList<TableModel>();
+			while (rs.next()) {
+				TableModel model = new TableModel();
+				model.setTable_id(rs.getInt("table_id"));
+				model.setTable_number(rs.getInt("table_number"));
+				model.setCapacity(rs.getInt("capacity"));
+				model.setTable_status(rs.getString("status"));
+				model.setStaff_id(rs.getInt("staff_id"));
+				
+				tableList.add(model);
+			}
+			return tableList;
+		} catch (Exception ex) {
+			System.out.println("Error in availableTable method :: " + ex);
+			return tableList;
+		}
+
+	}
+
 }
