@@ -26,6 +26,8 @@ public class RestaurantManagementSystem  {
 		int choice=sc.nextInt();
 		
 		switch(choice) {
+		
+		
 		/*case 3: 
 			AdminPannelOperations.addAdmin();
 			break;
@@ -42,6 +44,7 @@ public class RestaurantManagementSystem  {
 			
 			
 		default :System.out.println("ENTER VALID CHOICE ");
+		System.out.println("Best of Luck...");
 		
 		
 		}
