@@ -55,7 +55,7 @@ public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 				menu.setMenu_id(rs.getInt("menu_id"));
 				menu.setMenu_name(rs.getString("menu_name"));
 				menu.setPrice(rs.getInt("price"));
-				menu.setDescription(rs.getString("disception"));
+				menu.setDescription(rs.getString("Description"));
 				menuList.add(menu);
 				
 			}

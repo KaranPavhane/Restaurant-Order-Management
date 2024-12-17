@@ -29,7 +29,6 @@ public class DBConfiguration  {
 			String password=prop.getProperty("password");
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, username, password);
-			logger.info("Database Connected.......");
 		}catch(Exception ex) {
 			ex.printStackTrace();
 			logger.error(ex);

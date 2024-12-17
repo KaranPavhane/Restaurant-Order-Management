@@ -1,4 +1,4 @@
-package com.project.staticMethods;
+package com.nt.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class CustomerOperations {
 		System.out.println("ENTER YOUR NAME");
 		String cust_Name=sc.nextLine();
 		System.out.println("Enter Your Contact");
-		int contact=sc.nextInt();
+		String contact=sc.nextLine();
 		
 		System.out.println("<<<=== SELECT YOUR CATEGERIES ===>>>");
 		callViewAllCategery();

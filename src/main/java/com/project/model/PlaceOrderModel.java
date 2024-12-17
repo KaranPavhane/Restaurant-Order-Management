@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlaceOrderModel {
 	private String cust_Name;
-	private int contact;
+	private String contact;
 	private List<MenuModel> list;
 
 	

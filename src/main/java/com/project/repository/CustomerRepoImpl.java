@@ -87,12 +87,12 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo{
 
 		try {
 			String cust_Name=placeOrder.getCust_Name();
-			int contact =placeOrder.getContact();
+			String contact =placeOrder.getContact();
 			List<MenuModel> menuModel=placeOrder.getList();
 			
 			ps=con.prepareStatement("insert into customer_master values ('0',?,?)");
 			ps.setString(1, cust_Name);
-			ps.setInt(2, contact);
+			ps.setString(2, contact);
 			int value=ps.executeUpdate();
 			if(value>0) {
 				int custId=getCustomerIdByName(contact);
@@ -132,11 +132,11 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo{
 		return false;
 	}
 	
-	public int getCustomerIdByName(int contact) {
+	public int getCustomerIdByName(String contact) {
 		
 		try {
 			ps=con.prepareStatement("select cust_id from customer_master where contact=?");
-			ps.setInt(1, contact);
+			ps.setString(1, contact);
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				return rs.getInt(1);

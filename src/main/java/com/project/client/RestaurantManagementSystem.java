@@ -4,16 +4,18 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.project.commons.LoggerApp;
-import com.project.staticMethods.AdminPannelOperations;
-import com.project.staticMethods.CustomerOperations;
+import com.nt.controller.AdminPannelOperations;
+import com.nt.controller.CustomerOperations;
+
 
 public class RestaurantManagementSystem  {
+	
 	
 	public static void main(String[] args) {
 		
 		Scanner sc=new Scanner(System.in);
-		Logger logger = LoggerApp.getLogger();
+		//Logger logger = LoggerApp.getLogger();
+		Logger logger = Logger.getLogger(RestaurantManagementSystem.class);
 		
 		logger.info("Main Method Started...");
 		
@@ -24,24 +26,26 @@ public class RestaurantManagementSystem  {
 		int choice=sc.nextInt();
 		
 		switch(choice) {
-		case 3: 
+		/*case 3: 
 			AdminPannelOperations.addAdmin();
 			break;
-			
+			*/
 		
+		case 1: 
+			AdminPannelOperations.loginAsAdmin();
+			break;
+			
 		case 2:
 			CustomerOperations.callCustomerOperations();
 			break;
 			
 			
-		case 1: 
-			AdminPannelOperations.loginAsAdmin();
-			break;
+			
 		default :System.out.println("ENTER VALID CHOICE ");
 		
 		
 		}
-				
+			logger.error("not pass -ve number");	
 		
 		logger.info("Main Method End...");
 		

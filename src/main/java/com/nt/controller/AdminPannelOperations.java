@@ -1,4 +1,4 @@
-package com.project.staticMethods;
+package com.nt.controller;
 
 import java.util.List;
 import java.util.Scanner;
