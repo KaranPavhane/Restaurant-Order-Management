@@ -9,8 +9,11 @@ import com.nt.controller.CustomerOperations;
 
 
 public class RestaurantManagementSystem  {
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> 7ea9f542d5f28e33853b0f662ff650643cc268b7
 	public static void main(String[] args) {
 		
 		Scanner sc=new Scanner(System.in);
@@ -48,8 +51,20 @@ public class RestaurantManagementSystem  {
 		
 		
 		}
+<<<<<<< HEAD
 		
+=======
+				
+>>>>>>> 7ea9f542d5f28e33853b0f662ff650643cc268b7
 		logger.info("Main Method End...");
 		
 	}
 }
+
+
+
+/*
+ * create procedure add_menu_procedure(menu varchar(200), menu_price int,
+ * disception varchar(400), cat_id int(5)) begin insert into menu_master
+ * values('0', menu, menu_price, disception, cat_id); end //
+ */
