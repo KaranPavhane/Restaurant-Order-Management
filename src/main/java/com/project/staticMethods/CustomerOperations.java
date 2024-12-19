@@ -18,7 +18,8 @@ public class CustomerOperations {
 	static Scanner sc=new Scanner(System.in);
 	
 	public static void callCustomerOperations() {
-		availableTable();  										// for showing the available tables 
+		availableTable();  										// for showing the available tables
+		System.out.println("russuuuuuuuuuuuuuuu");
 		System.out.println("Enter Table No ");
 		int table_number=sc.nextInt();
 		String staff_name=custService.getStaffNameByTableId(table_number);
