@@ -1,16 +1,17 @@
 package com.project.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlaceOrderModel {
-	private CustomerModel custModel;
-	private List<MenuModel> list;
-	
+public class CustomerModel {
+
+	private int cust_id;
+	private String cust_name;
+	private String contact;
+	private String email;
 	
 }

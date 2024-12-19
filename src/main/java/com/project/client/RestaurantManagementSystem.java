@@ -21,7 +21,6 @@ public class RestaurantManagementSystem  {
 		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
 		System.out.println("<<=======================================>>");
 		int choice=sc.nextInt();
-		System.out.println("Rusuuuuuuuuuuuuuuuuuuu kadi yenar");
 		
 		switch(choice) {
 		case 3: 

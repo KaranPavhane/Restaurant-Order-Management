@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.project.model.CategeryModel;
+import com.project.model.CustomerModel;
 import com.project.model.MenuModel;
 import com.project.model.PlaceOrderModel;
 import com.project.model.TableModel;
@@ -17,15 +18,38 @@ public class CustomerOperations {
 	static Scanner sc=new Scanner(System.in);
 	
 	public static void callCustomerOperations() {
-		availableTable();
-		System.out.println("ENTER YOUR NAME");
-		String cust_Name=sc.nextLine();
-		System.out.println("Enter Your Contact");
-		int contact=sc.nextInt();
+		availableTable();  										// for showing the available tables 
+		System.out.println("Enter Table No ");
+		int table_number=sc.nextInt();
+		String staff_name=custService.getStaffNameByTableId(table_number);
+		System.out.println("Hello Sir My Self :: "+staff_name+" Plzz Fill-up the Following Information");
+		sc.nextLine();
+		
+		String cust_Name="";
+		String contact="";
+		System.out.println("Enter Your Email ");
+		String cust_email=sc.nextLine();
+		
+		CustomerModel cust=custService.getCustomerDetailsByEmail(cust_email);
+		if(cust!=null) {
+			System.out.println("Customer present :: " +cust.getCust_name());
+			cust_Name=cust.getCust_name();
+			contact=cust.getContact();
+		}else {
+			System.out.println("<<============== Sir Please Enter Your Details ========>>");
+			System.out.println("Enter Your Name ");
+			cust_Name=sc.nextLine();
+			System.out.println("Enter Your Contact");
+			contact=sc.nextLine();
+		}
+		
+		cust=new CustomerModel();
+		cust.setCust_name(cust_Name);
+		cust.setEmail(cust_email);
+		cust.setContact(contact);
 		
 		System.out.println("<<<=== SELECT YOUR CATEGERIES ===>>>");
 		callViewAllCategery();
-		
 		String cat_Name=sc.nextLine();
 		getMenuByCategery(cat_Name);
 		
@@ -38,7 +62,6 @@ public class CustomerOperations {
 			System.out.println("Enter Quantity");
 			int qty=sc.nextInt();
 			
-			
 			MenuModel menuModel=new MenuModel();
 			menuModel.setMenu_name(menu_name);
 			menuModel.setQty(qty);
@@ -49,16 +72,14 @@ public class CustomerOperations {
 			
 			if(sc.nextLine().equals("no")) {
 				System.out.println("Thank You Sir...😊");
-				
 				break;
 			}
 		}while(true);
 		
 		
 		PlaceOrderModel placeOrder=new PlaceOrderModel();
-		placeOrder.setCust_Name(cust_Name);
-		placeOrder.setContact(contact);
 		placeOrder.setList(menuList);
+		placeOrder.setCustModel(cust);
 		
 		boolean b=custService.isPlacedNewOrder(placeOrder);
 		if(b) {
@@ -71,7 +92,6 @@ public class CustomerOperations {
 // call ViewAll Category
 	public static void callViewAllCategery() {
 		List<CategeryModel> list=custService.getAllCategery();
-		sc.nextLine();
 		System.out.println("======================================");
 		for(CategeryModel model:list) {
 			System.out.println(model.getCategery_id()+"\t"+model.getCategery_name());
@@ -93,10 +113,13 @@ public class CustomerOperations {
 	public static void availableTable() {
 		
 			List<TableModel> tableModel=custService.availableTable();
+		
 			if(tableModel!=null) {
-				System.out.println("Tables Available");
+				System.out.println("============================================");
+				System.out.println("<<========= Table Available for Yours=========>>");
+				System.out.println("Table No.    Capacity     Status");
 				for(TableModel model : tableModel) {
-					System.out.println(model.getTable_id()+"\t"+model.getTable_number()+"\t"+model.getCapacity()+"\t"+model.getTable_status());
+					System.out.println(model.getTable_number()+"\t\t"+model.getCapacity()+"\t"+model.getTable_status());
 				}
 			}else {
 				System.out.println("table not present");
