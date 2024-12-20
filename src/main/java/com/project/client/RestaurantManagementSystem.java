@@ -2,43 +2,46 @@ package com.project.client;
 
 import java.util.Scanner;
 
-import org.apache.log4j.Logger;
+import com.project.controller.AdminPannelOperations;
+import com.project.controller.CustomerOperations;
 
-import com.project.commons.DBConfiguration;
-import com.project.commons.LoggerApp;
-import com.project.model.AdminModel;
-import com.project.service.AdminService;
-import com.project.service.AdminServiceImpl;
-
-public class RestaurantManagementSystem  {
-	
+public class RestaurantManagementSystem {
 	public static void main(String[] args) {
-		
-//		System.out.println("hello");
-		Scanner sc=new Scanner(System.in);
-		Logger logger = LoggerApp.getLogger();
-		DBConfiguration.getInstance();
-		AdminService adminService=new AdminServiceImpl();
-		logger.info("main method execute........");
-		System.out.println("Enter Your Username ");
-		String username=sc.nextLine();
-		System.out.println("Enter Your Password ");
-		String password=sc.nextLine();
-		System.out.println("Enter Your Date of Birth ");
-		String dob=sc.nextLine();
-		AdminModel model=new AdminModel();
-		model.setAdmin_username(username);
-		model.setAdmin_pass(password);
-		model.setDob(dob);
-		
-		boolean b=adminService.isAddNewAdmin(model);
-		if(b) {
-			System.out.println("New Admin added.......");
-		}else {
-			System.out.println("not added ");
+
+		Scanner sc = new Scanner(System.in);
+//		Logger logger = LoggerApp.getLogger();
+
+//		logger.info("Main Method Started...");
+
+		System.out.println("<<==== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ====>>");
+		System.out.println(" << ENTER 1 FOR ADMIN PANNAL MANAGEMENT >> ");
+		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
+		System.out.println("<<=======================================>>");
+		int choice = sc.nextInt();
+
+		switch (choice) {
+
+		case 1:
+			AdminPannelOperations.loginAsAdmin();
+			break;
+
+		case 2:
+			CustomerOperations.custFunction();
+			break;
+
+		default:
+			System.out.println("ENTER VALID CHOICE ");
+
 		}
-		
-		
-		
+
+//		logger.info("Main Method End...");
+		sc.close();
+
 	}
 }
+
+/*
+ * create procedure add_menu_procedure(menu varchar(200), menu_price int,
+ * disception varchar(400), cat_id int(5)) begin insert into menu_master
+ * values('0', menu, menu_price, disception, cat_id); end //
+ */
