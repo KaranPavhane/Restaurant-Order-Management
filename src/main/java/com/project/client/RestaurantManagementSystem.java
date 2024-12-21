@@ -40,8 +40,3 @@ public class RestaurantManagementSystem {
 	}
 }
 
-/*
- * create procedure add_menu_procedure(menu varchar(200), menu_price int,
- * disception varchar(400), cat_id int(5)) begin insert into menu_master
- * values('0', menu, menu_price, disception, cat_id); end //
- */
