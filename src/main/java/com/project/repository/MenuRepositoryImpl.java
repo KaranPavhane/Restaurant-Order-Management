@@ -18,6 +18,8 @@ public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 	private static final String ADD_MENU_BY_PROCEDURE_QUERY = "call add_menu_procedure(?, ?, ?, ?)";
 	private static final String SHOW_ALL_MENUS_GIVEN_CATEGERY_ID = "SELECT * FROM MENU_MASTER WHERE CATEGERY_ID=?"; 
 	private static final String DELETE_MENU_BY_MENU_NAME = "DELETE FROM  MENU_MASTER WHERE CATEGERY_ID=? AND MENU_NAME=?";
+	private static final String UPDATE_MENU_PRICE_BY_MENU_NAME = "UPDATE MENU_MASTER SET PRICE = ?, CATEGERY_ID = ? WHERE MENU_NAME = ?";
+	
 	
 	@Override
 	public boolean addNewMenu(MenuModel menuModel) {
@@ -97,7 +99,25 @@ public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 
 
 	@Override
-	public boolean updateMenuPriceByMenuName(String menu_name, int categery_id, int menuPrice) {
+	public boolean updateMenuPriceByMenuName(int menu_price, int categery_id, String menu_name) {
+		
+		showAllmenuList(categery_id);
+		
+		try {
+			
+			ps = con.prepareStatement(UPDATE_MENU_PRICE_BY_MENU_NAME);
+			ps.setInt(1, menu_price);
+			ps.setInt(2, categery_id);
+			ps.setString(3, menu_name);
+			int value = ps.executeUpdate();
+			
+			return value>0?true:false;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		return false;
 	}
