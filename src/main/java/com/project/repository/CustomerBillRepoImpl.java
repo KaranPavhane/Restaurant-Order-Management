@@ -1,8 +1,11 @@
 package com.project.repository;
 
+import java.util.List;
+
 import com.project.commons.DBConfig;
 import com.project.model.BillModel;
 import com.project.model.CustomerModel;
+import com.project.model.OrderMenuJoinModel;
 import com.project.model.PlaceOrderModel;
 
 public class CustomerBillRepoImpl extends DBConfig implements ICustomerBillRepo {
@@ -55,18 +58,39 @@ public class CustomerBillRepoImpl extends DBConfig implements ICustomerBillRepo 
 	
 	public PlaceOrderModel getMenusByOrderId(int order_id) {
 		PlaceOrderModel placeOrderModel=null;
-		
-		
-		
-		
-		
-		
-		
+
+		try {
+			ps=con.prepareStatement("select * from order_menu_join moj inner join menu_master mm on moj.menu_id=mm.menu_id where moj.order_id=?");
+			ps.setInt(1, order_id);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				int ordId=rs.getInt("order_id");
+				System.out.println("Order ID :: "+ordId);
+				getMenuIdByOrderId(ordId);
+			}
+			
+			
+			
+		}catch(Exception ex) {
+			System.out.println("Error is in getMenusByOrderId :: "+ex);
+		}
+	
 		return placeOrderModel;
 		
 	}
 	
-	
+	public List<OrderMenuJoinModel> getMenuIdByOrderId(int irdId) {
+		List<OrderMenuJoinModel> orderMenuModel=null;
+		try {
+			ps=con.
+			
+		}catch(Exception ex) {
+			System.out.println("error in OrderMenuJoinModel : "+ex);
+		}
+		
+		return orderMenuModel;
+		
+	}
 	
 }
 
