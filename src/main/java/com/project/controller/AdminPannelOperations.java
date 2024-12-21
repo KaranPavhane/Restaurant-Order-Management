@@ -473,12 +473,11 @@ public class AdminPannelOperations {
 
 		showAllTablesInRestaurent();
 		scn.nextLine();
-		System.out.println("Enter Staff Id to Find Tables :: ");
-		int staff_id = scn.nextInt();
+
 		System.out.println("Enter Table Number :: ");
 		int table_number = scn.nextInt();
 
-		boolean flag = tableService.deleteTableByTableNumber(staff_id, table_number);
+		boolean flag = tableService.deleteTableByTableNumber(table_number);
 		if (flag) {
 			System.out.println("Table Deleted By Staff Id...");
 		} else {
@@ -488,7 +487,28 @@ public class AdminPannelOperations {
 	}
 
 	private static void updateTableByItsTableNumber() {
-
+		
+		showAllTablesInRestaurent();
+		scn.nextLine();
+		
+		System.out.println("Enter Table Number :: ");
+		int table_number = scn.nextInt();
+		System.out.println("Enter Table Capacity :: ");
+		int table_capacity = scn.nextInt();
+		scn.nextLine();
+		
+		System.out.println("Enter Old Table Number :: ");
+		int old_table_number = scn.nextInt();
+		
+		boolean flag = tableService.updateTableByTableNumber(table_number, table_capacity, old_table_number);
+		
+		if(flag) {
+			System.out.println("Table Updated Successfully...");
+		}else {
+			System.out.println("Table Not Updated.");
+		}
+			
+			
 	}
 
 	// for adding categeries

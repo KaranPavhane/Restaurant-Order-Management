@@ -11,7 +11,8 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 
 	private static final String ADD_TABLE_IN_RESTAURENT = "INSERT INTO RESTO_TABLE VALUES('0', ?, ?, ?, ?)";
 	private static final String SHOW_ALL_TABLES_BY_STAFFID = "SELECT TABLE_ID, TABLE_NUMBER, CAPACITY, STATUS FROM RESTO_TABLE WHERE STAFF_ID=?";
-	private static final String DELETE_TABLE_BY_TABLENUMBER = "DELETE FROM RESTO_TABLE WHERE STAFF_ID=? && TABLE_NUMBER=?";
+	private static final String DELETE_TABLE_BY_TABLENUMBER = "DELETE FROM RESTO_TABLE WHERE TABLE_NUMBER=?";
+	private static final String UPDATE_TABLE_BY_TABLENUMBER = "UPDATE RESTO_TABLE SET TABLE_NUMBER=?, CAPACITY=? WHERE TABLE_NUMBER=?";
 	
 	
 	@Override
@@ -68,13 +69,37 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 
 
 	@Override
-	public boolean deleteTableByTableNumber(int staff_id, int table_number) {
+	public boolean deleteTableByTableNumber(int table_number) {
 		
 		try {
 			
 			ps = con.prepareStatement(DELETE_TABLE_BY_TABLENUMBER);
-			ps.setInt(1, staff_id);
-			ps.setInt(2, table_number);
+			ps.setInt(1, table_number);
+			int value = ps.executeUpdate();
+			
+			return value>0?true:false;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+
+
+	@Override
+	public boolean updateTableByTableNumber(int table_number, int capacity, int old_table_number) {
+		
+		try {
+			
+			ps = con.prepareStatement(UPDATE_TABLE_BY_TABLENUMBER);
+			ps.setInt(1, table_number);
+			ps.setInt(2, capacity);
+			ps.setInt(3, old_table_number);
+			
 			int value = ps.executeUpdate();
 			
 			return value>0?true:false;
