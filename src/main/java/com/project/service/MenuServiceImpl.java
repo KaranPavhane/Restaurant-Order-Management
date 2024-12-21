@@ -28,4 +28,10 @@ public class MenuServiceImpl implements IMenuService {
 		return menuService.deleteMenuByMenuName(categery_id, menu_name);
 	}
 
+	@Override
+	public boolean updateMenuPriceByMenuName(int menu_price, int categery_id, String menu_name) {
+		
+		return menuService.updateMenuPriceByMenuName(menu_price, categery_id, menu_name);
+	}
+
 }
