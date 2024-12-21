@@ -53,8 +53,9 @@ public class CustomerBillRepoImpl extends DBConfig implements ICustomerBillRepo 
 		return custModel;	
 	}
 	
-	public PlaceOrderModel getMenusByOrderIdP(int order_id) {
+	public PlaceOrderModel getMenusByOrderId(int order_id) {
 		PlaceOrderModel placeOrderModel=null;
+		
 		
 		
 		
@@ -64,6 +65,9 @@ public class CustomerBillRepoImpl extends DBConfig implements ICustomerBillRepo 
 		return placeOrderModel;
 		
 	}
+	
+	
+	
 }
 
 

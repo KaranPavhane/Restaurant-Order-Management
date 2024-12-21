@@ -16,6 +16,7 @@ public class RestaurantManagementSystem {
 		System.out.println("<<==== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ====>>");
 		System.out.println(" << ENTER 1 FOR ADMIN PANNAL MANAGEMENT >> ");
 		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
+		System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 		System.out.println("<<=======================================>>");
 		int choice = sc.nextInt();
 
@@ -40,8 +41,3 @@ public class RestaurantManagementSystem {
 	}
 }
 
-/*
- * create procedure add_menu_procedure(menu varchar(200), menu_price int,
- * disception varchar(400), cat_id int(5)) begin insert into menu_master
- * values('0', menu, menu_price, disception, cat_id); end //
- */
