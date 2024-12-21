@@ -11,6 +11,7 @@ public class StaffRepositoryImpl extends DBConfig implements IStaffRepository {
 
 	private static final String Add_NEW_STAFF = "INSERT INTO STAFF_MASTER (staff_name, staff_email, contact, salary) VALUES (?, ?, ?, ?)";
 	private static final String SHOW_ALL_STAFF_IN_RESTAURENT = "SELECT * FROM STAFF_MASTER";
+	private static final String SEARCH_STAFFNAME_START_WITH = "SELECT * FROM STAFF_MASTER WHERE STAFF_NAME LIKE ?";	
 	private static final String DELETE_STAFF_BY_NAME = "DELETE FROM STAFF_MASTER WHERE STAFF_NAME=?";
 	private static final String UPDATE_STAFF_BY_NAME = "UPDATE STAFF_MASTER SET STAFF_NAME=?, STAFF_EMAIL=?, CONTACT=?, SALARY=? WHERE STAFF_NAME=?";
 	
@@ -72,6 +73,41 @@ public class StaffRepositoryImpl extends DBConfig implements IStaffRepository {
 	}
 
 
+	
+	@Override
+	public List<StaffModel> getStaffNameByGivenWord(String startWith) {
+		
+		List<StaffModel> staffList = new ArrayList<StaffModel>();
+		
+		try {
+			
+			ps = con.prepareStatement(SEARCH_STAFFNAME_START_WITH);
+			ps.setString(1, "%"+ startWith + "%");
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				StaffModel staffModel = new StaffModel();
+				staffModel.setStaff_id(rs.getInt("staff_id"));
+				staffModel.setStaff_name(rs.getString("staff_name"));
+				staffModel.setStaff_email(rs.getString("staff_email"));
+				staffModel.setContact(rs.getString("contact")); 
+				staffModel.setSalary(rs.getInt("salary")); 
+				staffModel.setDate_joined(rs.getString("date_joined")); 
+				staffList.add(staffModel);
+				
+				
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return staffList;
+	}
+	
+	
 	@Override
 	public boolean deleteStaffByName(String name) {
 		
@@ -118,5 +154,8 @@ public class StaffRepositoryImpl extends DBConfig implements IStaffRepository {
 		
 		return false;
 	}
+
+
+	
 
 }
