@@ -8,12 +8,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.project.commons.DBConfig;
-import com.project.commons.LoggerApp;
 import com.project.model.MenuModel;
 
 public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 
-	Logger logger = LoggerApp.getLogger();
 	
 	private static final String ADD_MENU_BY_PROCEDURE_QUERY = "call add_menu_procedure(?, ?, ?, ?)";
 	private static final String SHOW_ALL_MENUS_GIVEN_CATEGERY_ID = "SELECT * FROM MENU_MASTER WHERE CATEGERY_ID=?"; 
@@ -34,10 +32,10 @@ public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 			int value = cs.executeUpdate();
 			return value>0?true:false;
 			
-		}catch(SQLException e) {
-			logger.error("MenuRepositoryImpl :: "+ e);
-		}catch(Exception e) {
-			logger.fatal("MenuRepositoryImpl :: "+ e);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return false;
@@ -62,11 +60,10 @@ public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 				
 			}
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.error("MenuRepositoryImpl :: "+ e);
-		}catch(Exception e) {
-			logger.fatal("MenuRepositoryImpl :: "+ e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return menuList;
@@ -87,11 +84,10 @@ public class MenuRepositoryImpl extends DBConfig implements IMenuRepository {
 			
 			return value>0?true:false;
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-			logger.error("MenuRepositoryImpl :: "+ e);
-		}catch(Exception e) {
-			logger.fatal("MenuRepositoryImpl :: "+ e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return false;

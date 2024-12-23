@@ -23,9 +23,15 @@ public class TableServiceImpl implements  ITableService {
 	}
 
 	@Override
-	public boolean deleteTableByTableNumber(int staff_id, int table_number) {
+	public boolean deleteTableByTableNumber(int table_number) {
 		
-		return tableRepo.deleteTableByTableNumber(staff_id, table_number);
+		return tableRepo.deleteTableByTableNumber(table_number);
+	}
+
+	@Override
+	public boolean updateTableByTableNumber(int table_number, int capacity, int old_table_number) {
+		
+		return tableRepo.updateTableByTableNumber(table_number, capacity, old_table_number);
 	}
 	
 	

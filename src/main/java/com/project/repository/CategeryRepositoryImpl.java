@@ -7,12 +7,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.project.commons.DBConfig;
-import com.project.commons.LoggerApp;
 import com.project.model.CategeryModel;
 
 public class CategeryRepositoryImpl extends DBConfig implements ICategeryRepository {
 
-	Logger logger = LoggerApp.getLogger();
 
 	private static final String ADD_NEW_CATEGERY_QUERY = "INSERT INTO CATEGERY_MASTER VALUES('0', ?)";
 	private static final String SHOW_ALL_CATEGERIES_QUERY = "SELECT * FROM CATEGERY_MASTER";
@@ -31,9 +29,9 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			return value > 0 ? true : false;
 
 		} catch (SQLException e) {
-			logger.error("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		} catch (Exception e) {
-			logger.fatal("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		}
 
 		return false;
@@ -53,11 +51,11 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			}
 
 		} catch (SQLException e) {
-			logger.error("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		} catch (Exception e) {
-			logger.fatal("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		}
-
+		
 		return categeryList;
 	}
 
@@ -73,10 +71,11 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			return value > 0 ? true : false;
 
 		} catch (SQLException e) {
-			logger.error("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		} catch (Exception e) {
-			logger.fatal("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		}
+		
 		return false;
 	}
 
@@ -100,9 +99,9 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			return value > 0 ? true : false;
 
 		} catch (SQLException e) {
-			logger.error("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		} catch (Exception e) {
-			logger.fatal("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		}
 
 		return false;
@@ -125,10 +124,11 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			}
 
 		} catch (SQLException e) {
-			logger.error("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		} catch (Exception e) {
-			logger.fatal("CategeryRepositoryImpl :: " + e);
+			e.printStackTrace();
 		}
+		
 		return id;
 
 	}

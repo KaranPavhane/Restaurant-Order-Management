@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import com.project.commons.DBConfig;
-import com.project.commons.LoggerApp;
 import com.project.model.AdminModel;
 
 
@@ -15,7 +14,6 @@ public class AdminRepoImpl extends DBConfig implements  IAdminRepo{
 	private static final String ADD_ADMIN_QUERY = "INSERT INTO ADMIN_MASTER VALUES ('0',?,?,?)";
 	private static final String LOGIN_ADMIN_QUERY = "SELECT * FROM ADMIN_MASTER WHERE USERNAME=? AND PASSWORD=?";
 	
-	Logger logger=LoggerApp.getLogger();
 	
 	@Override
 	public boolean isAddNewAdmin(AdminModel admin) {
@@ -30,9 +28,9 @@ public class AdminRepoImpl extends DBConfig implements  IAdminRepo{
 			return value>0?true:false;
 			
 		}catch(SQLException e) {
-			logger.error("AdminRepoImpl :: "+e);
+			e.printStackTrace();
 		}catch(Exception e) {
-			logger.fatal("AdminRepoImpl :: "+e);
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -52,9 +50,9 @@ public class AdminRepoImpl extends DBConfig implements  IAdminRepo{
 			return rs.next();
 			
 		}catch(SQLException e) {
-			logger.error("AdminRepoImpl :: "+ e);
+			e.printStackTrace();
 		}catch(Exception e) {
-			logger.fatal("AdminRepoImpl :: "+ e);
+			e.printStackTrace();
 		}
 		
 		return false;

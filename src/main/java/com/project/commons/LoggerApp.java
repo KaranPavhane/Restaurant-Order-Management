@@ -1,4 +1,4 @@
-package com.project.commons;
+/*package com.project.commons;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -16,3 +16,4 @@ public class LoggerApp {
 		return logger;
 	}
 }
+*/
