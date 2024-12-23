@@ -8,9 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBConfiguration  {
+	
+	private static Logger logger = LogManager.getLogger(DBConfiguration.class);
+	
+	
 	private static Connection con;
 	private static PreparedStatement ps;
 	private static ResultSet rs;
@@ -32,8 +37,11 @@ public class DBConfiguration  {
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
+		
 	}
+	
 	
 	public static DBConfiguration getInstance() {
 		if(db==null) {
