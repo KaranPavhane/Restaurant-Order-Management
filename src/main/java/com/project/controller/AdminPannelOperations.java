@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,16 +12,17 @@ import com.project.model.CategeryModel;
 import com.project.model.MenuModel;
 import com.project.model.StaffModel;
 import com.project.model.TableModel;
-import com.project.repository.IStaffRepository;
 import com.project.repository.StaffRepositoryImpl;
 import com.project.service.AdminServiceImpl;
 import com.project.service.CategeryServiceImpl;
 import com.project.service.IAdminService;
 import com.project.service.ICategeryService;
 import com.project.service.IMenuService;
+import com.project.service.IRestaurentInfoService;
 import com.project.service.IStaffService;
 import com.project.service.ITableService;
 import com.project.service.MenuServiceImpl;
+import com.project.service.RestaurentInfoServiceImpl;
 import com.project.service.StaffServiceImpl;
 import com.project.service.TableServiceImpl;
 
@@ -31,6 +33,7 @@ public class AdminPannelOperations {
 	static IMenuService menuService = new MenuServiceImpl();
 	static IStaffService staffService = new StaffServiceImpl();
 	static ITableService tableService = new TableServiceImpl();
+	static IRestaurentInfoService restoInfoService = new RestaurentInfoServiceImpl();
 
 	private static final Logger logger = (Logger) LogManager.getLogger(StaffRepositoryImpl.class);
 
@@ -69,7 +72,8 @@ public class AdminPannelOperations {
 			System.out.println("<<<-- Enter 2 FOR TABLES MANAGE -->>> ");
 			System.out.println("<<<-- Enter 3 FOR CATEGRY MANAGEMENT -->>> ");
 			System.out.println("<<<-- Enter 4 FOR MENU MANAGEMENT -->>> ");
-			System.out.println("<<<-- Enter 5 FOR EXIT THE APPLICATION -->>> ");
+			System.out.println("<<<-- Enter 5 SHOW ALL RESTAURENT DETAILS -->>> ");
+			System.out.println("<<<-- Enter 6 FOR EXIT THE APPLICATION -->>> ");
 			System.out.println();
 
 			System.out.println("Enter Your Choice :: ");
@@ -105,6 +109,11 @@ public class AdminPannelOperations {
 				break;
 
 			case 5:
+				showAllCustomers();
+				System.out.println();
+				break;
+
+			case 6:
 				System.out.println("Exiting Admin Pannel... See You Again 🙏🙏");
 				logger.debug("Exiting Admin Pannel... Goodbye!");
 				return;
@@ -231,8 +240,8 @@ public class AdminPannelOperations {
 		System.out.println("-------------------------------------------------------------");
 		for (StaffModel staffModel : staff) {
 			System.out.println(staffModel.getStaff_id() + " \t | " + staffModel.getStaff_name() + " \t | "
-					+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|" + staffModel.getSalary()
-					+ " \t | " + staffModel.getDate_joined());
+					+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|"
+					+ staffModel.getSalary() + " \t | " + staffModel.getDate_joined());
 		}
 		System.out.println();
 	}
@@ -252,8 +261,8 @@ public class AdminPannelOperations {
 			System.out.println("---------------------------------------------------------------");
 			for (StaffModel staffModel : staffList) {
 				System.out.println(staffModel.getStaff_id() + " \t | " + staffModel.getStaff_name() + " \t | "
-						+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|" + staffModel.getSalary()
-						+ " \t | " + staffModel.getDate_joined());
+						+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|"
+						+ staffModel.getSalary() + " \t | " + staffModel.getDate_joined());
 			}
 		}
 		System.out.println();
@@ -693,13 +702,13 @@ public class AdminPannelOperations {
 
 //		System.out.println("Choice Categery Id to Display All Menus :: ");
 //		int categeryId = scn.nextInt();
-		
+
 		List<MenuModel> menus = menuService.showAllmenuList();
 		System.out.println("Menus are in Restaurent ");
 		System.out.println("---------------------------------------------------");
 		for (MenuModel menuModel : menus) {
-			System.out.println(menuModel.getMenu_id() + " \t |" + menuModel.getMenu_name() + "\t \t        |  " + menuModel.getPrice()
-					+ "   \t  |" + menuModel.getDescription());
+			System.out.println(menuModel.getMenu_id() + " \t |" + menuModel.getMenu_name() + "\t \t        |  "
+					+ menuModel.getPrice() + "   \t |" + menuModel.getDescription());
 		}
 		System.out.println();
 
@@ -719,8 +728,8 @@ public class AdminPannelOperations {
 			System.out.println("Menus Founds :: ");
 			System.out.println("-------------------------------");
 			for (MenuModel menuModel : menuList) {
-				System.out.println(menuModel.getMenu_id() + " \t |" + menuModel.getMenu_name() + "\t | " + menuModel.getPrice()
-						+ " \t | " + menuModel.getDescription());
+				System.out.println(menuModel.getMenu_id() + " \t |" + menuModel.getMenu_name() + "\t | "
+						+ menuModel.getPrice() + " \t | " + menuModel.getDescription());
 			}
 			System.out.println();
 		}
@@ -771,6 +780,74 @@ public class AdminPannelOperations {
 
 	}
 
+	
+	
 //========================================================================================================================	
 
+	
+	
+	private static void showAllCustomers() {
+		
+		
+		List<Map<String, Object>> displayAllInfo = restoInfoService.displayAllInfo();
+		
+		
+		for(Map<String, Object> restorentData : displayAllInfo) {
+			
+			System.out.println("Custmoer Id ::\t\t "+ restorentData.get("custId"));
+			System.out.println("Custmoer Name ::\t "+ restorentData.get("custName"));
+			System.out.println("Custmoer Contact ::\t "+ restorentData.get("contact"));
+			System.out.println("Custmoer Email ::\t "+ restorentData.get("email"));
+			System.out.println("Categery Name ::\t "+ restorentData.get("categoryName"));
+			System.out.println("Menu Name ::\t\t "+ restorentData.get("menuName"));
+			System.out.println("Menu Price ::\t\t "+ restorentData.get("price"));
+			System.out.println("Table Number ::\t\t "+ restorentData.get("tableNumber"));
+			System.out.println("CGST ::\t\t\t "+ restorentData.get("cgst"));
+			System.out.println("SGST ::\t\t\t "+ restorentData.get("sgst"));
+			System.out.println("Discount ::\t\t "+ restorentData.get("discount"));
+			System.out.println("Grand Total ::\t\t "+ restorentData.get("grandTotal"));
+			System.out.println("Bill Date ::\t\t "+ restorentData.get("billDate"));
+			System.out.println();
+			
+			System.out.println("===========================================================");
+			System.out.println();
+			
+		}
+
+		System.out.println();
+		
+		
+	}
+
 }
+
+/*
+
+delimiter //
+
+CREATE PROCEDURE getAllRestaurentData()
+BEGIN
+    SELECT
+        c.cust_id, c.cust_name, c.contact, c.email,
+        cat.categery_name,
+        m.menu_name, m.price,
+        t.table_number,
+        b.CGST, b.SGST, b.discount, b.grand_total, b.bill_date
+    FROM customer_master c
+    INNER JOIN order_master o ON c.cust_id = o.cust_id
+    INNER JOIN bill_master b ON o.order_id = b.order_id
+    INNER JOIN resto_table t ON b.table_id = t.table_id
+    INNER JOIN order_menu_join omj ON o.order_id = omj.order_id
+    INNER JOIN menu_master m ON omj.menu_id = m.menu_id
+    INNER JOIN categery_master cat ON m.categery_id = cat.categery_id;
+END //
+
+delimiter ;
+
+
+
+
+CALL getAllRestaurentData();
+
+
+*/
