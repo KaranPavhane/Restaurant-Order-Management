@@ -19,10 +19,8 @@ public class RestaurantManagementSystem {
 
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("--------------");
 
 		System.out.println("<<==== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ====>>");
-		System.out.println("push to main");
 		System.out.println(" << ENTER 1 FOR ADMIN PANNAL MANAGEMENT >> ");
 		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
 
