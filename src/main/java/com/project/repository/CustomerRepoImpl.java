@@ -156,17 +156,19 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 			String email = cust.getEmail();
 			int grandTotal=0;
 			int table_number=placeOrder.getTable_number();
-			ps = con.prepareStatement("insert into customer_master values ('0',?,?,?)");
-			ps.setString(1, custName);
-			ps.setString(2, contact);
-			ps.setString(3, email);
-			int value = ps.executeUpdate();
+			int v=insertCustomerDetails(cust);
+			System.out.println("value return by customer is :: "+v);
+//			ps = con.prepareStatement("insert into customer_master values ('0',?,?,?)");
+//			ps.setString(1, custName);
+//			ps.setString(2, contact);
+//			ps.setString(3, email);
+//			int value = ps.executeUpdate();
 
-			if (value > 0) {
+			if (v > 0) {
 				int custId = getCustomerIdByName(contact);
 				ps = con.prepareStatement("insert into order_master values ('0',?)");
 				ps.setInt(1, custId);
-				value = ps.executeUpdate();
+				int value = ps.executeUpdate();
 				if (value > 0) {
 					
 					int orderId = this.getOrderIdByCustomerId(custId);
@@ -205,10 +207,8 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 								rs=ps.executeQuery();
 								while(rs.next()) {
 									return rs.getInt(1);
-								}
-								
+								}	
 							}
-							
 						}
 					}
 				}
@@ -223,6 +223,26 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 	}
 
 // =================================================================================================================================
+	
+	public int insertCustomerDetails(CustomerModel custModel) {
+		
+		try {
+			ps=con.prepareStatement("insert into customer_master values ('0',?,?,?)");
+			ps.setString(1, custModel.getCust_name());
+			ps.setString(2, custModel.getContact());
+			ps.setString(3, custModel.getEmail());
+			int value=ps.executeUpdate();
+			if(value>0) {
+				return value;
+			}
+			
+			
+		}catch(Exception ex) {
+			System.out.println("Error is in insertCustomerDetails :: "+ex);
+		}
+		return 0;
+		
+	}
 
 	public int getCustomerIdByName(String contact) {
 

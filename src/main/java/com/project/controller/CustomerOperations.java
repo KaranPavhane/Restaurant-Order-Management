@@ -134,8 +134,8 @@ public class CustomerOperations {
 		List<MenuModel> list = custService.getMenuByCategery(cat_Name);
 		System.out.println("======================================");
 		for (MenuModel model : list) {
-			System.out.println(model.getMenu_id() + "\t" + model.getMenu_name() + "\t" + model.getPrice() + "\t"
-					+ model.getDescription());
+//			System.out.println(model.getMenu_id() + "\t" + model.getMenu_name() + "\t" + model.getPrice() + "\t"
+//					+ model.getDescription());
 		}
 		System.out.println("======================================");
 	}
@@ -161,9 +161,12 @@ public class CustomerOperations {
 
 	public static void callCustomerBillOperation() {
 
-		
+		StringBuffer str=new StringBuffer();
 		System.out.println("Enter Your order Id  ");
 		int bill_id = sc.nextInt();
+		str.append("---------------------------------------------------\n");
+		str.append("<<<============== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ============>>>\n");
+		str.append("Bill ID :: "+bill_id+"\n");
 		
 		
 		BillModel billModel=billService.getBillDetails(bill_id);
@@ -177,11 +180,38 @@ public class CustomerOperations {
 		int table_id=billModel.getTable_id();
 		String bill_date=billModel.getBill_date();
 		
-		System.out.println(bill_id+"\t"+cust_id+"\t"+order_id+"\t"+cgst+"\t"+sgst+"\t"+discount+"\t"+grandTotal+"\t"+table_id+"\t"+bill_date);
+//		System.out.println(bill_id+"\t"+cust_id+"\t"+order_id+"\t"+cgst+"\t"+sgst+"\t"+discount+"\t"+grandTotal+"\t"+table_id+"\t"+bill_date);
 		
 		CustomerModel custModel=getCustomerDetailsById(cust_id);
 		System.out.println(custModel.getCust_id()+"\t"+custModel.getCust_name()+"\t"+custModel.getContact()+"\t"+custModel.getEmail());
+		str.append("Customer Name : "+custModel.getCust_name()+"\n");
+		str.append("Customer Contact : "+custModel.getContact()+"\n");
+		str.append("Customer Email : "+custModel.getEmail()+"\n");
+		str.append("====================Your Order ===========================\n\n");
+		str.append("Sr.No.\tMenu Name          Qty\t\tprice\n");
+		
+		
+		
+		List<MenuModel> menuList=billService.getMenusByOrderId(order_id);
+		int i=1;
+		int price=0;
+		for(MenuModel menu:menuList) {
+//			System.out.println(menu.getMenu_id()+"\t"+menu.getMenu_name()+"\t"+menu.getPrice()+"\t"+menu.getQty()+"\t"+menu.getDescription());
+			str.append(i+"\t"+menu.getMenu_name()+"               "+menu.getQty()+"\t\t"+menu.getPrice()+"\n");
+			i++;
+			price=price+(menu.getPrice()*menu.getQty());
+		}
+		str.append("-------------------------------------------------------------\n");
+		str.append("                                      Total Price :: "+price);
 
+		str.append("\n                                       SGST tax :: "+sgst+"%");
+		str.append("\n                                       CGST Tax :: "+cgst+"%");
+		str.append("\n                                       Discount :: "+discount+"%");
+		str.append("\n                                    Grand Total :: "+grandTotal);
+		
+		str.append("\n<<<=========== Thank You Sir Visit Again 🙏😊 =============>>>");
+		
+		System.out.println(str);
 	}
 	
 	public static CustomerModel getCustomerDetailsById(int cust_id) {
@@ -193,18 +223,8 @@ public class CustomerOperations {
 	
 	
 	
+	
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
