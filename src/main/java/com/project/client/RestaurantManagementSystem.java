@@ -18,7 +18,6 @@ public class RestaurantManagementSystem {
 		logger.info("Mian Mehtod Started...");
 
 		Scanner sc = new Scanner(System.in);
-		
 
 		System.out.println("<<==== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ====>>");
 		System.out.println(" << ENTER 1 FOR ADMIN PANNAL MANAGEMENT >> ");

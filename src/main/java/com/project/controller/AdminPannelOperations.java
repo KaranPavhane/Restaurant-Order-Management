@@ -515,6 +515,8 @@ public class AdminPannelOperations {
 
 	}
 
+	
+	
 	// for adding categeries
 	private static void addCategery() {
 		scn.nextLine();
@@ -532,6 +534,7 @@ public class AdminPannelOperations {
 		}
 
 	}
+	
 
 	// show all Categeries
 	private static void showAllCategeries() {
@@ -666,6 +669,8 @@ public class AdminPannelOperations {
 		} while (true);
 
 	}
+	
+	
 
 	// for adding menus by given categery
 	private static void addMenuesGivenByCategery() {
