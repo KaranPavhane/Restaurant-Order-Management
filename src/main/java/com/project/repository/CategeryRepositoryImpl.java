@@ -8,12 +8,13 @@ import org.apache.log4j.Logger;
 
 import com.project.commons.DBConfig;
 import com.project.model.CategeryModel;
+import com.project.model.StaffModel;
 
 public class CategeryRepositoryImpl extends DBConfig implements ICategeryRepository {
 
-
 	private static final String ADD_NEW_CATEGERY_QUERY = "INSERT INTO CATEGERY_MASTER VALUES('0', ?)";
 	private static final String SHOW_ALL_CATEGERIES_QUERY = "SELECT * FROM CATEGERY_MASTER";
+	private static final String SEARCH_CATEGERY_BY_GIVENWORD = "SELECT * FROM CATEGERY_MASTER WHERE CATEGERY_NAME LIKE ?";
 	private static final String DELETE_CATEGERY_QUERY = "DELETE FROM CATEGERY_MASTER WHERE CATEGERY_NAME=?";
 	private static final String UPDATE_CATEGERIES_QUERY = "UPDATE CATEGERY_MASTER SET CATEGERY_NAME=? WHERE CATEGERY_ID=?";
 	private static final String GET_CATEGERY_ID_QUERY = "SELECT CATEGERY_ID FROM CATEGERY_MASTER WHERE CATEGERY_NAME=?";
@@ -55,9 +56,36 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return categeryList;
 	}
+
+	@Override
+	public List<CategeryModel> getCategeryByGivenWord(String word) {
+
+		List<CategeryModel> categeryList = new ArrayList<CategeryModel>();
+		try {
+
+			ps = con.prepareStatement(SEARCH_CATEGERY_BY_GIVENWORD);
+			ps.setString(1, "%" + word + "%");
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				CategeryModel categeryModel = new CategeryModel();
+				
+				categeryList.add(categeryModel);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return categeryList;
+	}
+	
 
 	@Override
 	public boolean deleteCategeryByName(String categery_name) {
@@ -75,9 +103,10 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
+	
 
 	@Override
 	public boolean updateCategeryName(String newName, String oldName) {
@@ -110,17 +139,17 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 	private int getCategeryNameByCategeryID(String oldName) {
 
 		System.out.println("Categery Name :: " + oldName);
-		
+
 		int id = -1;
 		try {
 			ps = con.prepareStatement(GET_CATEGERY_ID_QUERY);
 			ps.setString(1, oldName);
 			rs = ps.executeQuery();
 
-			if(rs.next()) {
+			if (rs.next()) {
 				id = rs.getInt("categery_id");
-			}else {
-				System.out.println("Categery_Id Not Found with  "+ oldName+"");
+			} else {
+				System.out.println("Categery_Id Not Found with  " + oldName + "");
 			}
 
 		} catch (SQLException e) {
@@ -128,7 +157,7 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return id;
 
 	}

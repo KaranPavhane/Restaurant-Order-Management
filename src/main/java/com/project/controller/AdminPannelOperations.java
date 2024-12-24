@@ -29,7 +29,99 @@ public class AdminPannelOperations {
 
 	static Scanner scn = new Scanner(System.in);
 
+	public static void loginAsAdmin() {
+		System.out.println();
+		System.out.println("---Enter Admin Username and Password---");
+		System.out.println("--------------------------------------------");
+		System.out.println();
+		System.out.println("Enter User Name :: ");
+		String username = scn.nextLine();
+		System.out.println("Enter Password :: ");
+		String password = scn.nextLine();
+
+		if (adminService.loginAdmin(username, password)) {
+			System.out.println("Admin Login Successfully :-> You Can Manage Your Restaurant...");
+			System.out.println();
+			AdminCurd();
+		} else {
+			System.out.println("Enter Admin Currect Username and Password.");
+		}
+	}
+	
+	
+	
+//========================================================================================================================	
+	
+	
+
+	// main Reastaurent operations
+	public static void AdminCurd() {
+
+		System.out.println("-------> Restaurent Order Management System <---------");
+
+		do {
+			System.out.println("<<<-- Enter 0 FOR ADD NEW ADMIN -->>> ");
+			System.out.println("<<<-- Enter 1 FOR STAFF MANAGE -->>> ");
+			System.out.println("<<<-- Enter 2 FOR TABLES MANAGE -->>> ");
+			System.out.println("<<<-- Enter 3 FOR CATEGRY MANAGEMENT -->>> ");
+			System.out.println("<<<-- Enter 4 FOR MENU MANAGEMENT -->>> ");
+			System.out.println("<<<-- Enter 5 FOR EXIT THE APPLICATION -->>> ");
+			System.out.println();
+
+			System.out.println("Enter Your Choice :: ");
+			int choice = scn.nextInt();
+			System.out.println();
+
+			switch (choice) {
+
+			case 0:
+				// for adding new admin
+				addAdmin();
+				System.out.println();
+				break;
+				
+
+			case 1:
+				staffManage();
+				System.out.println();
+				break;
+				
+
+			case 2:
+				manageRestaurentTables();
+				System.out.println();
+				break;
+				
+
+			case 3:
+				manageFoodCategery();
+				System.out.println();
+				break;
+				
+
+			case 4:
+				manageFootItems();
+				System.out.println();
+				break;
+
+				
+			case 5:
+				System.out.println("Exiting Admin Pannel... Goodbye!");
+				return;
+				
+
+			default:
+				System.out.println("Invalid Choice! Please try again.");
+				
+			}
+		} while (true);
+	}
+
+	
+	
+	
 	private static void addAdmin() {
+
 		scn.nextLine();
 		System.out.println("Enter User Name :: ");
 		String username = scn.nextLine();
@@ -50,143 +142,24 @@ public class AdminPannelOperations {
 			System.out.println("Admin Not Added.");
 		}
 	}
-
-	public static void loginAsAdmin() {
-		System.out.println();
-		System.out.println("---Enter Admin Username and Password---");
-		System.out.println("--------------------------------------------");
-		System.out.println();
-		System.out.println("Enter User Name :: ");
-		String username = scn.nextLine();
-		System.out.println("Enter Password :: ");
-		String password = scn.nextLine();
-
-		if (adminService.loginAdmin(username, password)) {
-			System.out.println("Admin Login Successfully :-> You Can Manage Your Restaurant...");
-			System.out.println();
-			AdminCurd();
-		} else {
-			System.out.println("Enter Admin Currect Username and Password.");
-		}
-	}
-
 	
 	
-	//main Reastaurent operations
-	public static void AdminCurd() {
+	
+	
+//==========================================================================================================================
+	
 
-	    do {
-	        System.out.println("<<<-- Enter 0 FOR ADD NEW ADMIN -->>> ");
-	        System.out.println("<<<-- Enter 1 FOR STAFF MANAGE -->>> ");
-	        System.out.println("<<<-- Enter 2 FOR TABLES MANAGE -->>> ");
-	        System.out.println("<<<-- Enter 3 FOR CATEGRY MANAGEMENT -->>> ");
-	        System.out.println("<<<-- Enter 4 FOR MENU MANAGEMENT -->>> ");
-	        System.out.println("<<<-- Enter 5 FOR EXIT THE APPLICATION -->>> ");
-	        System.out.println();
-
-	        System.out.println("Enter Your Choice :: ");
-	        int choice = scn.nextInt();
-	        System.out.println();
-
-	        switch (choice) {
-
-	            case 0:
-	                // for adding new admin
-	                addAdmin();
-	                System.out.println();
-	                break;
-
-	            case 1:
-	                staffManage(); 
-	                System.out.println();
-	                break;
-
-	            case 2:
-	                manageRestaurentTables(); 
-	                System.out.println();
-	                break;
-
-	            case 3:
-	                manageFoodCategery(); 
-	                System.out.println();
-	                break;
-
-	                
-	            case 4:
-	                manageFootItems(); 
-	                System.out.println();
-	                break;
-
-	                
-	            case 5:
-	                System.out.println("Exiting Admin Menu. Goodbye!");
-	                return;
-
-	                
-	            default:
-	                System.out.println("Invalid Choice! Please try again.");
-	        }
-	    } while (true);
-	}
-
+	
 	
 	// Manage all staff
 	private static void staffManage() {
-	    do {
-	        System.out.println("1.Add New Staff");
-	        System.out.println("2.Show All Staff Available in Restaurant");
-	        System.out.println("3.Delete Staff By Name");
-	        System.out.println("4.Update Staff By Name");
-	        System.out.println("5.Back to Main Menu");
-	        System.out.println("-------------------------");
-	        System.out.println();
-
-	        System.out.println("Enter Your Choice :: ");
-	        int choice = scn.nextInt();
-
-	        switch (choice) {
-
-	            case 1:
-	                addNewStaff();
-	                System.out.println();
-	                break;
-
-	            case 2:
-	                showAllStaff();
-	                System.out.println();
-	                break;
-
-	            case 3:
-	                deleteStaffByName();
-	                System.out.println();
-	                break;
-
-	            case 4:
-	                updateStaffByName();
-	                System.out.println();
-	                break;
-
-	            case 5:
-	                return; 
-
-	            default:
-	                System.out.println("Invalid Choice! Please try again.");
-	        }
-	    } while (true);
-	}
-
-	
-	
-	// manage restaurent tables
-	private static void manageRestaurentTables() {
-
 		do {
-
-			System.out.println("1.Add new Table");
-			System.out.println("2.show All Tables in Restaurent");
-			System.out.println("3.Delete Table By Table Number");
-			System.out.println("4.Update Table By Table Number");
-	        System.out.println("5.Back to Main Menu");
+			System.out.println("1.Add New Staff");
+			System.out.println("2.Show All Staff Available in Restaurant");
+			System.out.println("3 Search Staff Name Start Wish ...");
+			System.out.println("4.Delete Staff By Name");
+			System.out.println("5.Update Staff By Name");
+			System.out.println("6.Back to Main Menu");
 			System.out.println("-------------------------");
 			System.out.println();
 
@@ -196,145 +169,38 @@ public class AdminPannelOperations {
 			switch (choice) {
 
 			case 1:
-				// add new table
-				addNewTable();
+				addNewStaff();
 				System.out.println();
 				break;
 
 			case 2:
-				// show all tables in restaurent
-				showAllTablesInRestaurent();
+				showAllStaff();
 				System.out.println();
 				break;
 
 			case 3:
-				// delete tables by its table number
-				deleteTableByItsTableNumber();
+				searchStaffNameStartWith();
 				System.out.println();
 				break;
 
 			case 4:
-				// update table by its table number
-				updateTableByItsTableNumber();
+				deleteStaffByName();
 				System.out.println();
 				break;
-				
+
 			case 5:
+				updateStaffByName();
+				System.out.println();
+				break;
+
+			case 6:
 				return;
 
+			default:
+				System.out.println("Invalid Choice! Please try again.");
 			}
-
 		} while (true);
 	}
-
-	private static void manageFoodCategery() {
-
-		do {
-
-			System.out.println("1.Add Category");
-			System.out.println("2.Show Categories");
-			System.out.println("3.Delete Category");
-			System.out.println("4.Update Category");
-	        System.out.println("5.Back to Main Menu");
-			System.out.println("-------------------------");
-			System.out.println();
-
-			System.out.println("Enter Your Choice :: ");
-			int choice = scn.nextInt();
-			
-			switch(choice) {
-			
-			case 1:
-				// add categery
-				addCategery();
-				System.out.println();
-				break;
-
-			case 2:
-				// show all categeries
-				showAllCategeries();
-				System.out.println();
-				break;
-
-			case 3:
-				// delete categery
-				deleteCategery();
-				System.out.println();
-				break;
-
-			case 4:
-				// update categery
-				updateCategery();
-				System.out.println();
-				break;
-				
-			case 5:
-				return;
-			
-			
-			}
-
-		} while (true);
-
-	}
-
-	public static void manageFootItems() {
-
-		int choice;
-		System.out.println();
-
-		
-		do {
-
-			System.out.println("1.Add Menus In Given Categery");
-			System.out.println("2.Show All Menus In Given Categery");
-			System.out.println("3.Delete Menu In Given Categery");
-			System.out.println("4. Update Menu price In Given Categery");
-	        System.out.println("5.Back to Main Menu");
-			System.out.println("-------------------------");
-
-			System.out.println();
-			System.out.println("Enter Your Choice : ");
-			choice = scn.nextInt();
-
-			switch (choice) {
-
-			
-
-			case 1:
-				// add menu in given categery
-				addMenuesGivenByCategery();
-				System.out.println();
-				break;
-
-			case 2:
-				// show all menus given categery
-				showMenusGivenCategery();
-				System.out.println();
-				break;
-
-			case 3:
-				// delete menu by given categery_id and menu_name
-				deleteMenuByGivenMenuName();
-				System.out.println();
-				break;
-
-			case 4:
-				// update menu price by given categery_id given categery_name
-				updateMenuPriceByGivenMenuName();
-				System.out.println();
-				break;
-				
-			case 5:
-				return;
-
-			}
-
-		} while (true);
-
-	}
-	
-	
 
 	// add new staff
 	private static void addNewStaff() {
@@ -351,16 +217,14 @@ public class AdminPannelOperations {
 //		System.out.println("Joined Date :: ");
 //		String joinedDate = scn.nextLine();
 
-		
 		StaffModel staff = new StaffModel();
 		staff.setStaff_name(name);
 		staff.setStaff_email(email);
 		staff.setContact(contact);
 		staff.setSalary(salary);
-		
+
 		boolean flag = staffService.addNewStaff(staff);
-		
-		
+
 		if (flag) {
 			System.out.println("Staff Details Added Successully...");
 		} else {
@@ -379,6 +243,29 @@ public class AdminPannelOperations {
 					+ "  " + staffModel.getDate_joined());
 		}
 		System.out.println();
+	}
+
+	private static void searchStaffNameStartWith() {
+
+		showAllStaff();
+		scn.nextLine();
+		System.out.println("Staff Start With :: ");
+		String startWith = scn.nextLine();
+		List<StaffModel> staffList = staffService.getStaffNameByGivenWord(startWith);
+		
+		if(staffList.isEmpty()) {
+			System.out.println("Staff Are Not Found...");
+		}else {
+			System.out.println("Staff Founds :: ");
+			System.out.println("---------------------------------------------------------------");
+			for(StaffModel staffModel : staffList) {
+				
+				System.out.println(staffModel.getStaff_id() + "  " + staffModel.getStaff_name() + "  "
+						+ staffModel.getStaff_email() + "  " + staffModel.getContact() + "  " + staffModel.getSalary()
+						+ "  " + staffModel.getDate_joined());
+			}
+		}
+		
 	}
 
 	// delete staff by name
@@ -424,6 +311,63 @@ public class AdminPannelOperations {
 		} else {
 			System.out.println("Staff Not Updated.");
 		}
+	}
+	
+	
+	
+//========================================================================================================================	
+	
+
+	
+	
+	// manage restaurent tables
+	private static void manageRestaurentTables() {
+
+		do {
+
+			System.out.println("1.Add new Table");
+			System.out.println("2.show All Tables in Restaurent");
+			System.out.println("3.Delete Table By Table Number");
+			System.out.println("4.Update Table By Table Number");
+			System.out.println("5.Back to Main Menu");
+			System.out.println("-------------------------");
+			System.out.println();
+
+			System.out.println("Enter Your Choice :: ");
+			int choice = scn.nextInt();
+
+			switch (choice) {
+
+			case 1:
+				// add new table
+				addNewTable();
+				System.out.println();
+				break;
+
+			case 2:
+				// show all tables in restaurent
+				showAllTablesInRestaurent();
+				System.out.println();
+				break;
+
+			case 3:
+				// delete tables by its table number
+				deleteTableByItsTableNumber();
+				System.out.println();
+				break;
+
+			case 4:
+				// update table by its table number
+				updateTableByItsTableNumber();
+				System.out.println();
+				break;
+
+			case 5:
+				return;
+
+			}
+
+		} while (true);
 	}
 
 	private static void addNewTable() {
@@ -486,28 +430,83 @@ public class AdminPannelOperations {
 	}
 
 	private static void updateTableByItsTableNumber() {
-		
+
 		showAllTablesInRestaurent();
 		scn.nextLine();
-		
+
 		System.out.println("Enter Table Number :: ");
 		int table_number = scn.nextInt();
 		System.out.println("Enter Table Capacity :: ");
 		int table_capacity = scn.nextInt();
 		scn.nextLine();
-		
+
 		System.out.println("Enter Old Table Number :: ");
 		int old_table_number = scn.nextInt();
-		
+
 		boolean flag = tableService.updateTableByTableNumber(table_number, table_capacity, old_table_number);
-		
-		if(flag) {
+
+		if (flag) {
 			System.out.println("Table Updated Successfully...");
-		}else {
+		} else {
 			System.out.println("Table Not Updated.");
 		}
-			
-			
+
+	}
+	
+	
+	
+//========================================================================================================================		
+	
+	
+
+	private static void manageFoodCategery() {
+
+		do {
+
+			System.out.println("1.Add Category");
+			System.out.println("2.Show Categories");
+			System.out.println("3.Delete Category");
+			System.out.println("4.Update Category");
+			System.out.println("5.Back to Main Menu");
+			System.out.println("-------------------------");
+			System.out.println();
+
+			System.out.println("Enter Your Choice :: ");
+			int choice = scn.nextInt();
+
+			switch (choice) {
+
+			case 1:
+				// add categery
+				addCategery();
+				System.out.println();
+				break;
+
+			case 2:
+				// show all categeries
+				showAllCategeries();
+				System.out.println();
+				break;
+
+			case 3:
+				// delete categery
+				deleteCategery();
+				System.out.println();
+				break;
+
+			case 4:
+				// update categery
+				updateCategery();
+				System.out.println();
+				break;
+
+			case 5:
+				return;
+
+			}
+
+		} while (true);
+
 	}
 
 	// for adding categeries
@@ -573,6 +572,67 @@ public class AdminPannelOperations {
 		} else {
 			System.out.println("Categery is Not Update.");
 		}
+
+	}
+	
+	
+	
+//========================================================================================================================	
+	
+	
+	
+	
+
+	public static void manageFootItems() {
+
+		int choice;
+		System.out.println();
+
+		do {
+
+			System.out.println("1.Add Menus In Given Categery");
+			System.out.println("2.Show All Menus In Given Categery");
+			System.out.println("3.Delete Menu In Given Categery");
+			System.out.println("4. Update Menu price In Given Categery");
+			System.out.println("5.Back to Main Menu");
+			System.out.println("-------------------------");
+
+			System.out.println();
+			System.out.println("Enter Your Choice : ");
+			choice = scn.nextInt();
+
+			switch (choice) {
+
+			case 1:
+				// add menu in given categery
+				addMenuesGivenByCategery();
+				System.out.println();
+				break;
+
+			case 2:
+				// show all menus given categery
+				showMenusGivenCategery();
+				System.out.println();
+				break;
+
+			case 3:
+				// delete menu by given categery_id and menu_name
+				deleteMenuByGivenMenuName();
+				System.out.println();
+				break;
+
+			case 4:
+				// update menu price by given categery_id given categery_name
+				updateMenuPriceByGivenMenuName();
+				System.out.println();
+				break;
+
+			case 5:
+				return;
+
+			}
+
+		} while (true);
 
 	}
 
@@ -664,5 +724,9 @@ public class AdminPannelOperations {
 		}
 
 	}
+	
+
+//========================================================================================================================	
+	
 
 }

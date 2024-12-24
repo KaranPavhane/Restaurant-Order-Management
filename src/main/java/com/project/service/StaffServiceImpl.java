@@ -17,6 +17,12 @@ public class StaffServiceImpl implements IStaffService{
 	}
 
 	@Override
+	public List<StaffModel> getStaffNameByGivenWord(String startWith) {
+		
+		return staffRepo.getStaffNameByGivenWord(startWith);
+	}
+	
+	@Override
 	public List<StaffModel> showAllStaffInRestaurent() {
 		
 		return staffRepo.showAllStaffInRestaurent();
@@ -34,5 +40,7 @@ public class StaffServiceImpl implements IStaffService{
 		
 		return staffRepo.updateStaffByName(newStaffName, staffEmail, staffContact, salary, oldStaffName);
 	}
+
+	
 
 }
