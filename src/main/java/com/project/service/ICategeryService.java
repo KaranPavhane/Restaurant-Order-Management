@@ -8,6 +8,7 @@ public interface ICategeryService {
 	
 	public boolean addNewCategery(CategeryModel categery);
 	public List<CategeryModel> showAllCategeries();
+	public List<CategeryModel> getCategeryByGivenWord(String word);
 	public boolean deleteCategeryByName(String categery_name);
 	public boolean updateCategeryName(String oldName, String newName);
 

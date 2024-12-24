@@ -19,6 +19,11 @@ public class CategeryServiceImpl implements ICategeryService{
 	public boolean deleteCategeryByName(String categery_name) {
 		return iCategery.deleteCategeryByName(categery_name);
 	}
+	
+	@Override
+	public List<CategeryModel> getCategeryByGivenWord(String word) {
+		return iCategery.getCategeryByGivenWord(word);
+	}
 
 	@Override
 	public List<CategeryModel> showAllCategeries() {
@@ -29,5 +34,7 @@ public class CategeryServiceImpl implements ICategeryService{
 	public boolean updateCategeryName(String oldName, String newName) {
 		return iCategery.updateCategeryName(oldName, newName);
 	}
+
+	
 
 }

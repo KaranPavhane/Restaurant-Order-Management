@@ -17,9 +17,9 @@ public class StaffServiceImpl implements IStaffService{
 	}
 
 	@Override
-	public List<StaffModel> getStaffNameByGivenWord(String startWith) {
+	public List<StaffModel> getStaffNameByGivenWord(String word) {
 		
-		return staffRepo.getStaffNameByGivenWord(startWith);
+		return staffRepo.getStaffNameByGivenWord(word);
 	}
 	
 	@Override

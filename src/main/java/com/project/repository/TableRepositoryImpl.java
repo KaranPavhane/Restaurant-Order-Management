@@ -4,15 +4,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import com.project.commons.DBConfig;
 import com.project.model.TableModel;
 
 public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 
 	private static final String ADD_TABLE_IN_RESTAURENT = "INSERT INTO RESTO_TABLE VALUES('0', ?, ?, ?, ?)";
-	private static final String SHOW_ALL_TABLES_BY_STAFFID = "SELECT TABLE_ID, TABLE_NUMBER, CAPACITY, STATUS FROM RESTO_TABLE WHERE STAFF_ID=?";
+	private static final String SHOW_ALL_TABLES_BY_STAFFID = "SELECT TABLE_ID, TABLE_NUMBER, CAPACITY, STATUS FROM RESTO_TABLE";
 	private static final String DELETE_TABLE_BY_TABLENUMBER = "DELETE FROM RESTO_TABLE WHERE TABLE_NUMBER=?";
 	private static final String UPDATE_TABLE_BY_TABLENUMBER = "UPDATE RESTO_TABLE SET TABLE_NUMBER=?, CAPACITY=? WHERE TABLE_NUMBER=?";
+	
+	
+	private static final Logger logger = (Logger) LogManager.getLogger(TableRepositoryImpl.class);
+
 	
 	
 	@Override
@@ -29,10 +36,12 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 			
 			return value>0?true:false;
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+			logger.error("SQLException...");
+		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 		
 		return false;
@@ -40,14 +49,13 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 
 
 	@Override
-	public List<TableModel> showAllTablesByStaffId(int staff_id) {
+	public List<TableModel> showAllTablesByStaffId() {
 		
 		List<TableModel> tableList = new ArrayList<TableModel>();
 		
 		try {
 			
 			ps = con.prepareStatement(SHOW_ALL_TABLES_BY_STAFFID);
-			ps.setInt(1, staff_id);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				TableModel tableModel = new TableModel();
@@ -58,10 +66,12 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 				tableList.add(tableModel);
 			}
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+			logger.error("SQLException...");
+		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 		
 		return tableList;
@@ -79,10 +89,12 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 			
 			return value>0?true:false;
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+			logger.error("SQLException...");
+		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 		
 		return false;
@@ -104,10 +116,12 @@ public class TableRepositoryImpl extends DBConfig implements ITableRepository {
 			
 			return value>0?true:false;
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch(Exception e) {
+			logger.error("SQLException...");
+		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 		
 		return false;

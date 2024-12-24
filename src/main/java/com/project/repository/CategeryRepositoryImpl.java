@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import com.project.commons.DBConfig;
 import com.project.model.CategeryModel;
-import com.project.model.StaffModel;
 
 public class CategeryRepositoryImpl extends DBConfig implements ICategeryRepository {
 
@@ -18,6 +18,9 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 	private static final String DELETE_CATEGERY_QUERY = "DELETE FROM CATEGERY_MASTER WHERE CATEGERY_NAME=?";
 	private static final String UPDATE_CATEGERIES_QUERY = "UPDATE CATEGERY_MASTER SET CATEGERY_NAME=? WHERE CATEGERY_ID=?";
 	private static final String GET_CATEGERY_ID_QUERY = "SELECT CATEGERY_ID FROM CATEGERY_MASTER WHERE CATEGERY_NAME=?";
+	
+	
+	private static final Logger logger = (Logger) LogManager.getLogger(CategeryRepositoryImpl.class);
 
 	@Override
 	public boolean addNewCategery(CategeryModel categery) {
@@ -31,8 +34,10 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("SQLException...");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 
 		return false;
@@ -53,8 +58,10 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("SQLException...");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 
 		return categeryList;
@@ -72,15 +79,18 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 
 			while (rs.next()) {
 				CategeryModel categeryModel = new CategeryModel();
-				
+				categeryModel.setCategery_id(rs.getInt("categery_id"));
+				categeryModel.setCategery_name(rs.getString("categery_name"));
 				categeryList.add(categeryModel);
 
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("SQLException...");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 
 		return categeryList;
@@ -100,8 +110,10 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("SQLException...");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 
 		return false;
@@ -129,8 +141,10 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("SQLException...");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 
 		return false;
@@ -154,8 +168,10 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("SQLException...");
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.fatal("Unknown Exception...");
 		}
 
 		return id;

@@ -17,9 +17,9 @@ public class TableServiceImpl implements  ITableService {
 	}
 
 	@Override
-	public List<TableModel> showAllTablesByStaffId(int staff_id) {
+	public List<TableModel> showAllTablesByStaffId() {
 		
-		return tableRepo.showAllTablesByStaffId(staff_id);
+		return tableRepo.showAllTablesByStaffId();
 	}
 
 	@Override

@@ -1,21 +1,29 @@
 package com.project.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import com.project.model.AdminModel;
 import com.project.model.CategeryModel;
 import com.project.model.MenuModel;
 import com.project.model.StaffModel;
 import com.project.model.TableModel;
+
+import com.project.repository.StaffRepositoryImpl;
 import com.project.service.AdminServiceImpl;
 import com.project.service.CategeryServiceImpl;
 import com.project.service.IAdminService;
 import com.project.service.ICategeryService;
 import com.project.service.IMenuService;
+import com.project.service.IRestaurentInfoService;
 import com.project.service.IStaffService;
 import com.project.service.ITableService;
 import com.project.service.MenuServiceImpl;
+import com.project.service.RestaurentInfoServiceImpl;
 import com.project.service.StaffServiceImpl;
 import com.project.service.TableServiceImpl;
 
@@ -26,6 +34,9 @@ public class AdminPannelOperations {
 	static IMenuService menuService = new MenuServiceImpl();
 	static IStaffService staffService = new StaffServiceImpl();
 	static ITableService tableService = new TableServiceImpl();
+	static IRestaurentInfoService restoInfoService = new RestaurentInfoServiceImpl();
+
+	private static final Logger logger = (Logger) LogManager.getLogger(StaffRepositoryImpl.class);
 
 	static Scanner scn = new Scanner(System.in);
 
@@ -40,19 +51,16 @@ public class AdminPannelOperations {
 		String password = scn.nextLine();
 
 		if (adminService.loginAdmin(username, password)) {
-			System.out.println("Admin Login Successfully :-> You Can Manage Your Restaurant...");
+			logger.info("Admin Login Successfully :-> You Can Manage Your Restaurant...");
 			System.out.println();
 			AdminCurd();
 		} else {
-			System.out.println("Enter Admin Currect Username and Password.");
+			System.out.println("Login Faild Try Again..!!");
+			logger.error("-->Login Faild Please Check Username and password.!!!");
 		}
 	}
-	
-	
-	
+
 //========================================================================================================================	
-	
-	
 
 	// main Reastaurent operations
 	public static void AdminCurd() {
@@ -65,7 +73,8 @@ public class AdminPannelOperations {
 			System.out.println("<<<-- Enter 2 FOR TABLES MANAGE -->>> ");
 			System.out.println("<<<-- Enter 3 FOR CATEGRY MANAGEMENT -->>> ");
 			System.out.println("<<<-- Enter 4 FOR MENU MANAGEMENT -->>> ");
-			System.out.println("<<<-- Enter 5 FOR EXIT THE APPLICATION -->>> ");
+			System.out.println("<<<-- Enter 5 SHOW ALL RESTAURENT DETAILS -->>> ");
+			System.out.println("<<<-- Enter 6 FOR EXIT THE APPLICATION -->>> ");
 			System.out.println();
 
 			System.out.println("Enter Your Choice :: ");
@@ -79,47 +88,45 @@ public class AdminPannelOperations {
 				addAdmin();
 				System.out.println();
 				break;
-				
 
 			case 1:
 				staffManage();
 				System.out.println();
 				break;
-				
 
 			case 2:
 				manageRestaurentTables();
 				System.out.println();
 				break;
-				
 
 			case 3:
 				manageFoodCategery();
 				System.out.println();
 				break;
-				
 
 			case 4:
 				manageFootItems();
 				System.out.println();
 				break;
 
-				
 			case 5:
-				System.out.println("Exiting Admin Pannel... Goodbye!");
+				showAllCustomers();
+				System.out.println();
+				break;
+
+			case 6:
+				System.out.println("Exiting Admin Pannel... See You Again 🙏🙏");
+				logger.debug("Exiting Admin Pannel... Goodbye!");
 				return;
-				
 
 			default:
-				System.out.println("Invalid Choice! Please try again.");
-				
+				System.out.println("Invaid Choice...");
+				logger.error("Invalid Choice! Please try again.");
+
 			}
 		} while (true);
 	}
 
-	
-	
-	
 	private static void addAdmin() {
 
 		scn.nextLine();
@@ -142,15 +149,9 @@ public class AdminPannelOperations {
 			System.out.println("Admin Not Added.");
 		}
 	}
-	
-	
-	
-	
-//==========================================================================================================================
-	
 
-	
-	
+//==========================================================================================================================
+
 	// Manage all staff
 	private static void staffManage() {
 		do {
@@ -179,7 +180,7 @@ public class AdminPannelOperations {
 				break;
 
 			case 3:
-				searchStaffNameStartWith();
+				searchStaffNameByWord();
 				System.out.println();
 				break;
 
@@ -197,7 +198,8 @@ public class AdminPannelOperations {
 				return;
 
 			default:
-				System.out.println("Invalid Choice! Please try again.");
+				System.out.println("Invaid Choice...");
+				logger.error("Invalid Choice! Please try again.");
 			}
 		} while (true);
 	}
@@ -238,34 +240,34 @@ public class AdminPannelOperations {
 		System.out.println("Available Staff in Restaurent is :: ");
 		System.out.println("-------------------------------------------------------------");
 		for (StaffModel staffModel : staff) {
-			System.out.println(staffModel.getStaff_id() + "  " + staffModel.getStaff_name() + "  "
-					+ staffModel.getStaff_email() + "  " + staffModel.getContact() + "  " + staffModel.getSalary()
-					+ "  " + staffModel.getDate_joined());
+			System.out.println(staffModel.getStaff_id() + " \t | " + staffModel.getStaff_name() + " \t | "
+					+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|"
+					+ staffModel.getSalary() + " \t | " + staffModel.getDate_joined());
 		}
 		System.out.println();
 	}
 
-	private static void searchStaffNameStartWith() {
+	private static void searchStaffNameByWord() {
 
-		showAllStaff();
+//		showAllStaff();
 		scn.nextLine();
-		System.out.println("Staff Start With :: ");
-		String startWith = scn.nextLine();
-		List<StaffModel> staffList = staffService.getStaffNameByGivenWord(startWith);
-		
-		if(staffList.isEmpty()) {
+		System.out.println("Staff Word Find With :: ");
+		String word = scn.nextLine();
+		List<StaffModel> staffList = staffService.getStaffNameByGivenWord(word);
+
+		if (staffList.isEmpty()) {
 			System.out.println("Staff Are Not Found...");
-		}else {
+		} else {
 			System.out.println("Staff Founds :: ");
 			System.out.println("---------------------------------------------------------------");
-			for(StaffModel staffModel : staffList) {
-				
-				System.out.println(staffModel.getStaff_id() + "  " + staffModel.getStaff_name() + "  "
-						+ staffModel.getStaff_email() + "  " + staffModel.getContact() + "  " + staffModel.getSalary()
-						+ "  " + staffModel.getDate_joined());
+			for (StaffModel staffModel : staffList) {
+				System.out.println(staffModel.getStaff_id() + " \t | " + staffModel.getStaff_name() + " \t | "
+						+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|"
+						+ staffModel.getSalary() + " \t | " + staffModel.getDate_joined());
 			}
 		}
-		
+		System.out.println();
+
 	}
 
 	// delete staff by name
@@ -312,14 +314,9 @@ public class AdminPannelOperations {
 			System.out.println("Staff Not Updated.");
 		}
 	}
-	
-	
-	
-//========================================================================================================================	
-	
 
-	
-	
+//========================================================================================================================	
+
 	// manage restaurent tables
 	private static void manageRestaurentTables() {
 
@@ -365,6 +362,10 @@ public class AdminPannelOperations {
 			case 5:
 				return;
 
+			default:
+				System.out.println("Invaid Choice...");
+				logger.error("Invalid Choice! Please try again.");
+
 			}
 
 		} while (true);
@@ -396,17 +397,17 @@ public class AdminPannelOperations {
 
 	private static void showAllTablesInRestaurent() {
 
-		showAllStaff();
+//		showAllStaff();
 		scn.nextLine();
 
-		System.out.println("Enter Staff Id :: ");
-		int staff_id = scn.nextInt();
-		List<TableModel> tableList = tableService.showAllTablesByStaffId(staff_id);
+//		System.out.println("Enter Staff Id :: ");
+//		int staff_id = scn.nextInt();
+		List<TableModel> tableList = tableService.showAllTablesByStaffId();
 		System.out.println("Restaurent Table Information :: ");
 		System.out.println("---------------------------------");
 		for (TableModel tableModel : tableList) {
-			System.out.println(tableModel.getTable_id() + "  " + tableModel.getTable_number() + "  "
-					+ tableModel.getCapacity() + "  " + tableModel.getTable_status());
+			System.out.println(tableModel.getTable_id() + " \t | " + tableModel.getTable_number() + " \t | "
+					+ tableModel.getCapacity() + " \t | " + tableModel.getTable_status());
 		}
 		System.out.println();
 
@@ -452,12 +453,8 @@ public class AdminPannelOperations {
 		}
 
 	}
-	
-	
-	
+
 //========================================================================================================================		
-	
-	
 
 	private static void manageFoodCategery() {
 
@@ -465,9 +462,10 @@ public class AdminPannelOperations {
 
 			System.out.println("1.Add Category");
 			System.out.println("2.Show Categories");
-			System.out.println("3.Delete Category");
-			System.out.println("4.Update Category");
-			System.out.println("5.Back to Main Menu");
+			System.out.println("3.Search Category By Word ...");
+			System.out.println("4.Delete Category");
+			System.out.println("5.Update Category");
+			System.out.println("6.Back to Main Menu");
 			System.out.println("-------------------------");
 			System.out.println();
 
@@ -489,19 +487,28 @@ public class AdminPannelOperations {
 				break;
 
 			case 3:
+				serachCategeryByWord();
+				System.out.println();
+				break;
+
+			case 4:
 				// delete categery
 				deleteCategery();
 				System.out.println();
 				break;
 
-			case 4:
+			case 5:
 				// update categery
 				updateCategery();
 				System.out.println();
 				break;
 
-			case 5:
+			case 6:
 				return;
+
+			default:
+				System.out.println("Invaid Choice...");
+				logger.error("Invalid Choice! Please try again.");
 
 			}
 
@@ -533,8 +540,29 @@ public class AdminPannelOperations {
 		System.out.println("Categeries are in Restaurant are :: ");
 		System.out.println("-----------------------------------------");
 		for (CategeryModel categeryModel : categeries) {
-			System.out.println(categeryModel.getCategery_id() + "  " + categeryModel.getCategery_name());
+			System.out.println(categeryModel.getCategery_id() + " \t | " + categeryModel.getCategery_name());
 		}
+	}
+
+	private static void serachCategeryByWord() {
+
+//		showAllCategeries();
+		scn.nextLine();
+		System.out.println("Categery Word to Find :: ");
+		String word = scn.nextLine();
+		List<CategeryModel> categeryList = categeryService.getCategeryByGivenWord(word);
+
+		if (categeryList.isEmpty()) {
+			System.out.println("Categeries Are Not Found...");
+		} else {
+			System.out.println("Categeries Founds :: ");
+			System.out.println("-------------------------------");
+			for (CategeryModel categeryModel : categeryList) {
+
+				System.out.println(categeryModel.getCategery_id() + " \t | " + categeryModel.getCategery_name());
+			}
+		}
+		System.out.println();
 	}
 
 	// for deleting categery
@@ -574,14 +602,8 @@ public class AdminPannelOperations {
 		}
 
 	}
-	
-	
-	
+
 //========================================================================================================================	
-	
-	
-	
-	
 
 	public static void manageFootItems() {
 
@@ -592,9 +614,10 @@ public class AdminPannelOperations {
 
 			System.out.println("1.Add Menus In Given Categery");
 			System.out.println("2.Show All Menus In Given Categery");
-			System.out.println("3.Delete Menu In Given Categery");
-			System.out.println("4. Update Menu price In Given Categery");
-			System.out.println("5.Back to Main Menu");
+			System.out.println("3.Search Menu By Word ...");
+			System.out.println("4.Delete Menu In Given Categery");
+			System.out.println("5. Update Menu price In Given Categery");
+			System.out.println("6.Back to Main Menu");
 			System.out.println("-------------------------");
 
 			System.out.println();
@@ -616,19 +639,28 @@ public class AdminPannelOperations {
 				break;
 
 			case 3:
+				searchMenuByWrod();
+				System.out.println();
+				break;
+
+			case 4:
 				// delete menu by given categery_id and menu_name
 				deleteMenuByGivenMenuName();
 				System.out.println();
 				break;
 
-			case 4:
+			case 5:
 				// update menu price by given categery_id given categery_name
 				updateMenuPriceByGivenMenuName();
 				System.out.println();
 				break;
 
-			case 5:
+			case 6:
 				return;
+
+			default:
+				System.out.println("Invaid Choice...");
+				logger.error("Invalid Choice! Please try again.");
 
 			}
 
@@ -667,16 +699,40 @@ public class AdminPannelOperations {
 	// showing all menus by given categery wise
 	private static void showMenusGivenCategery() {
 
-		showAllCategeries();
+//		showAllCategeries();
 
-		System.out.println("Choice Categery Id to Display All Menus :: ");
-		int categeryId = scn.nextInt();
-		List<MenuModel> menus = menuService.showAllmenuList(categeryId);
+//		System.out.println("Choice Categery Id to Display All Menus :: ");
+//		int categeryId = scn.nextInt();
+
+		List<MenuModel> menus = menuService.showAllmenuList();
 		System.out.println("Menus are in Restaurent ");
-		System.out.println("--------------------------");
+		System.out.println("---------------------------------------------------");
 		for (MenuModel menuModel : menus) {
-			System.out.println(menuModel.getMenu_id() + " | " + menuModel.getMenu_name() + " | " + menuModel.getPrice()
-					+ " | " + menuModel.getDescription());
+			System.out.println(menuModel.getMenu_id() + " \t |" + menuModel.getMenu_name() + "\t \t        |  "
+					+ menuModel.getPrice() + "   \t |" + menuModel.getDescription());
+		}
+		System.out.println();
+
+	}
+
+	private static void searchMenuByWrod() {
+
+//		showMenusGivenCategery();
+		scn.nextLine();
+		System.out.println("Menu Word to Find :: ");
+		String word = scn.nextLine();
+		List<MenuModel> menuList = menuService.getMenuNamesByGivenWord(word);
+
+		if (menuList.isEmpty()) {
+			System.out.println("Menus Are Not Found...");
+		} else {
+			System.out.println("Menus Founds :: ");
+			System.out.println("-------------------------------");
+			for (MenuModel menuModel : menuList) {
+				System.out.println(menuModel.getMenu_id() + " \t |" + menuModel.getMenu_name() + "\t | "
+						+ menuModel.getPrice() + " \t | " + menuModel.getDescription());
+			}
+			System.out.println();
 		}
 
 	}
@@ -724,9 +780,75 @@ public class AdminPannelOperations {
 		}
 
 	}
-	
 
-//========================================================================================================================	
 	
+	
+//========================================================================================================================	
+
+	
+	
+	private static void showAllCustomers() {
+		
+		
+		List<Map<String, Object>> displayAllInfo = restoInfoService.displayAllInfo();
+		
+		
+		for(Map<String, Object> restorentData : displayAllInfo) {
+			
+			System.out.println("Custmoer Id ::\t\t "+ restorentData.get("custId"));
+			System.out.println("Custmoer Name ::\t "+ restorentData.get("custName"));
+			System.out.println("Custmoer Contact ::\t "+ restorentData.get("contact"));
+			System.out.println("Custmoer Email ::\t "+ restorentData.get("email"));
+			System.out.println("Categery Name ::\t "+ restorentData.get("categoryName"));
+			System.out.println("Menu Name ::\t\t "+ restorentData.get("menuName"));
+			System.out.println("Menu Price ::\t\t "+ restorentData.get("price"));
+			System.out.println("Table Number ::\t\t "+ restorentData.get("tableNumber"));
+			System.out.println("CGST ::\t\t\t "+ restorentData.get("cgst"));
+			System.out.println("SGST ::\t\t\t "+ restorentData.get("sgst"));
+			System.out.println("Discount ::\t\t "+ restorentData.get("discount"));
+			System.out.println("Grand Total ::\t\t "+ restorentData.get("grandTotal"));
+			System.out.println("Bill Date ::\t\t "+ restorentData.get("billDate"));
+			System.out.println();
+			
+			System.out.println("===========================================================");
+			System.out.println();
+			
+		}
+
+		System.out.println();
+		
+		
+	}
 
 }
+
+/*
+
+delimiter //
+
+CREATE PROCEDURE getAllRestaurentData()
+BEGIN
+    SELECT
+        c.cust_id, c.cust_name, c.contact, c.email,
+        cat.categery_name,
+        m.menu_name, m.price,
+        t.table_number,
+        b.CGST, b.SGST, b.discount, b.grand_total, b.bill_date
+    FROM customer_master c
+    INNER JOIN order_master o ON c.cust_id = o.cust_id
+    INNER JOIN bill_master b ON o.order_id = b.order_id
+    INNER JOIN resto_table t ON b.table_id = t.table_id
+    INNER JOIN order_menu_join omj ON o.order_id = omj.order_id
+    INNER JOIN menu_master m ON omj.menu_id = m.menu_id
+    INNER JOIN categery_master cat ON m.categery_id = cat.categery_id;
+END //
+
+delimiter ;
+
+
+
+
+CALL getAllRestaurentData();
+
+
+*/

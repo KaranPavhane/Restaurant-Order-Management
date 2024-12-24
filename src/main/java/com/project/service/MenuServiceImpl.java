@@ -17,10 +17,17 @@ public class MenuServiceImpl implements IMenuService {
 	}
 
 	@Override
-	public List<MenuModel> showAllmenuList(int categery_id) {
+	public List<MenuModel> showAllmenuList() {
 		
-		return menuService.showAllmenuList(categery_id);
+		return menuService.showAllmenuList();
 	}
+	
+	@Override
+	public List<MenuModel> getMenuNamesByGivenWord(String word) {
+		
+		return menuService.getMenuNamesByGivenWord(word);
+	}
+	
 
 	@Override
 	public boolean deleteMenuMyMenuName(int categery_id, String menu_name) {
@@ -33,5 +40,7 @@ public class MenuServiceImpl implements IMenuService {
 		
 		return menuService.updateMenuPriceByMenuName(menu_price, categery_id, menu_name);
 	}
+
+
 
 }
