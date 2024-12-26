@@ -25,8 +25,11 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 public class CustomerOperations {
 
 	static ICustomerService custService = new CustomerServiceImpl();
@@ -224,6 +227,7 @@ public class CustomerOperations {
 		str.append("\n\n<<<=========== Thank You Sir Visit Again 🙏😊 =============>>>");
 
 		System.out.println(str);
+<<<<<<< Updated upstream
 
 		String to = custModel.getEmail();
 		String from = "pavhane21@gmail.com";
@@ -235,6 +239,23 @@ public class CustomerOperations {
 		}else {
 			System.out.println("not Valid Email");
 		}
+=======
+		
+		
+		String to=custModel.getEmail();
+		String from="pavhane21@gmail.com"; 
+		String subject="<<<======== Your Bill ============>>>";
+		String text=new String(str);
+		boolean isSendMail=sendEmailToCustomer(to,from, subject, text);
+		if(isSendMail) {
+			System.out.println("Email Send Successfully......");
+		}else {
+			System.out.println("Email not send....");
+		}
+		
+		
+		
+>>>>>>> Stashed changes
 	}
 
 	public static CustomerModel getCustomerDetailsById(int cust_id) {
@@ -242,6 +263,7 @@ public class CustomerOperations {
 		CustomerModel custModel = billService.getCustDetail(cust_id);
 		return custModel;
 	}
+<<<<<<< Updated upstream
 
 	public static boolean SendMailToCustomer(String to, String from, String subject, String text) {
 
@@ -287,4 +309,51 @@ public class CustomerOperations {
 
 	}
 
+=======
+	
+	
+	public static boolean sendEmailToCustomer(String to, String from, String subject, String text) {
+		
+		Properties properties = new Properties();
+		properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.starttls.enable", true);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+
+        String username = "pavhane21@gmail.com"; // Your Gmail address
+        String password = "iesz jbni cayd eccs"; // Replace with App-Specific Password
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+		
+//        session.setDebug(true); // Enable SMTP debugging for detailed logs
+
+        try {
+            // Create a MimeMessage object
+            Message message = new MimeMessage(session);
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setFrom(new InternetAddress(from));
+            message.setSubject(subject);
+            message.setText(text);
+
+            // Send the email
+            Transport.send(message);
+            System.out.println("Email sent successfully.");
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        }
+		
+	}
+	
+	
+	
+	
+>>>>>>> Stashed changes
 }

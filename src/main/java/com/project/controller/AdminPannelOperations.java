@@ -120,13 +120,22 @@ public class AdminPannelOperations {
 				return;
 
 			default:
+<<<<<<< Updated upstream
 				System.out.println("Invaid Choice...");
 				logger.error("Invalid Choice! Please try again.");
+=======
+				System.out.println("Invalid Choice! Please try again.");
+>>>>>>> Stashed changes
 
 			}
 		} while (true);
 	}
 
+<<<<<<< Updated upstream
+=======
+	
+	
+>>>>>>> Stashed changes
 	private static void addAdmin() {
 
 		scn.nextLine();
@@ -251,9 +260,15 @@ public class AdminPannelOperations {
 
 //		showAllStaff();
 		scn.nextLine();
+<<<<<<< Updated upstream
 		System.out.println("Staff Word Find With :: ");
 		String word = scn.nextLine();
 		List<StaffModel> staffList = staffService.getStaffNameByGivenWord(word);
+=======
+		System.out.println("Staff Start With :: ");
+		String startWith = scn.nextLine();
+		List<StaffModel> staffList = staffService.getStaffNameByGivenWord(startWith);
+>>>>>>> Stashed changes
 
 		if (staffList.isEmpty()) {
 			System.out.println("Staff Are Not Found...");
@@ -261,12 +276,21 @@ public class AdminPannelOperations {
 			System.out.println("Staff Founds :: ");
 			System.out.println("---------------------------------------------------------------");
 			for (StaffModel staffModel : staffList) {
+<<<<<<< Updated upstream
 				System.out.println(staffModel.getStaff_id() + " \t | " + staffModel.getStaff_name() + " \t | "
 						+ staffModel.getStaff_email() + " \t\t | " + staffModel.getContact() + " \t\t|"
 						+ staffModel.getSalary() + " \t | " + staffModel.getDate_joined());
 			}
 		}
 		System.out.println();
+=======
+
+				System.out.println(staffModel.getStaff_id() + "  " + staffModel.getStaff_name() + "  "
+						+ staffModel.getStaff_email() + "  " + staffModel.getContact() + "  " + staffModel.getSalary()
+						+ "  " + staffModel.getDate_joined());
+			}
+		}
+>>>>>>> Stashed changes
 
 	}
 
@@ -781,6 +805,7 @@ public class AdminPannelOperations {
 
 	}
 
+<<<<<<< Updated upstream
 	
 	
 //========================================================================================================================	
@@ -819,6 +844,9 @@ public class AdminPannelOperations {
 		
 		
 	}
+=======
+//========================================================================================================================	
+>>>>>>> Stashed changes
 
 }
 
