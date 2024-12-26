@@ -5,7 +5,6 @@ import java.util.List;
 import com.project.model.BillModel;
 import com.project.model.CustomerModel;
 import com.project.model.MenuModel;
-import com.project.model.PlaceOrderModel;
 import com.project.repository.CustomerBillRepoImpl;
 import com.project.repository.ICustomerBillRepo;
 

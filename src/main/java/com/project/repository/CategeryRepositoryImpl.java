@@ -21,7 +21,6 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 	
 	
 	private static final Logger logger = (Logger) LogManager.getLogger(CategeryRepositoryImpl.class);
-
 	@Override
 	public boolean addNewCategery(CategeryModel categery) {
 
@@ -39,7 +38,6 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			e.printStackTrace();
 			logger.fatal("Unknown Exception...");
 		}
-
 		return false;
 	}
 
@@ -55,7 +53,6 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 				categery.setCategery_name(rs.getString("categery_name"));
 				categeryList.add(categery);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error("SQLException...");
@@ -63,7 +60,6 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			e.printStackTrace();
 			logger.fatal("Unknown Exception...");
 		}
-
 		return categeryList;
 	}
 
@@ -165,7 +161,6 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			} else {
 				System.out.println("Categery_Id Not Found with  " + oldName + "");
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error("SQLException...");
@@ -173,9 +168,6 @@ public class CategeryRepositoryImpl extends DBConfig implements ICategeryReposit
 			e.printStackTrace();
 			logger.fatal("Unknown Exception...");
 		}
-
 		return id;
-
 	}
-
 }
