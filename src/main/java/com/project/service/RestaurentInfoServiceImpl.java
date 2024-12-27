@@ -44,6 +44,18 @@ public class RestaurentInfoServiceImpl implements IRestaurentInfoService {
 		return restInfoRepo.displayAllInfo();
 	}
 
+	@Override
+	public List<Map<String, Object>> getCustomersBetweenDates(String startDate, String endDate) {
+		
+		return restInfoRepo.getCustomersBetweenDates(startDate, endDate);
+	}
+
+	@Override
+	public Map<String, Object> getTableWithHighestCustomers() {
+		
+		return restInfoRepo.getTableWithHighestCustomers();
+	}
+
 	
 
 }

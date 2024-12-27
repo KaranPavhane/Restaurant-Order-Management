@@ -175,7 +175,7 @@ public class AdminPannelOperations {
 			System.out.println("<<<-- ENTER 3 FOR CATEGRY MANAGEMENT -->>> ");
 			System.out.println("<<<-- ENTER 4 FOR MENU MANAGEMENT -->>> ");
 			System.out.println("<<<-- ENTER 5 MANAGE RESTAURENT REPORTS -->>> ");
-			System.out.println("<<<-- ENTER 6 FOR EXIT THE APPLICATION -->>> ");
+			System.out.println("<<<-- ENTER 6 GO IN MAIN PANNEl -->>> ");
 			System.out.println();
 
 			System.out.println("Enter Your Choice :: ");
@@ -214,11 +214,11 @@ public class AdminPannelOperations {
 				manageRestaurentReports();
 				System.out.println();
 				break;
-
+				
 			case 6:
-				System.out.println("Exiting Admin Pannel... See You Again 🙏🙏");
-				logger.debug("Exiting Admin Pannel... Goodbye!");
 				return;
+
+		
 
 			default:
 				System.out.println("Invaid Choice...");
@@ -896,7 +896,10 @@ public class AdminPannelOperations {
 			System.out.println("3.Show Mothly Customer Records ");
 			System.out.println("4.Show Yearly Customer Records ");
 			System.out.println("5.Show All Customer Records ");
-			System.out.println("6.Back to Main Menu");
+			
+			System.out.println("6.Get Customer All Data Between Two Dates ");
+			System.out.println("7.Get Table Heighest Customer Records ");
+			System.out.println("8.Back to Main Menu");
 			System.out.println("-------------------------");
 
 			System.out.println();
@@ -929,8 +932,19 @@ public class AdminPannelOperations {
 				showAllRestaurentCustomerDetails();
 				System.out.println();
 				break;
-
+				
 			case 6:
+				showCustomersBetweenDates();
+				System.out.println();
+				break;
+				
+				
+			case 7:
+				showTableWithHighestCustomers();
+				System.out.println();
+				break;
+
+			case 8:
 				return;
 
 			}
@@ -1083,19 +1097,19 @@ public class AdminPannelOperations {
 	private static void showAllRestaurentCustomerDetails() {
 
 		
-		List<Map<String, Object>> displayAllInfo = restoInfoService.displayAllInfo();
+		List<Map<String, Object>> custList = restoInfoService.displayAllInfo();
 		
 		
 		System.out.println("-----------> ALL RESTAURENT CUSTOMER RECORDS <-----------------");
 		System.out.println();
 
-		if (displayAllInfo == null || displayAllInfo.isEmpty()) {
+		if (custList == null || custList.isEmpty()) {
 			System.out.println("No records found for the past year.");
 			return;
 		}
 		
 
-		for (Map<String, Object> restorentData : displayAllInfo) {
+		for (Map<String, Object> restorentData : custList) {
 			
 			System.out.println("Custmoer Id 	  ::\t\t " + restorentData.get("custId"));
 			System.out.println("Custmoer Name 	  ::\t\t " + restorentData.get("custName"));
@@ -1121,6 +1135,55 @@ public class AdminPannelOperations {
 
 	}
 	
+	
+	public static void showCustomersBetweenDates() {
+		scn.nextLine();
+		System.out.println("Enter First Date (YYYY:MM:DD) :: ");
+		String firstDate = scn.nextLine();
+		System.out.println("Enter Last Date (YYYY:MM:DD)  :: ");
+		String lastDate = scn.nextLine();
+
+		
+		System.out.println("-----------> ALL RESTAURENT CUSTOMER RECORDS WITH GIVEN TWO DATES <-----------------");
+
+
+	    List<Map<String, Object>> custData = restoInfoService.getCustomersBetweenDates(firstDate, lastDate);
+
+	    System.out.println();
+	    if (custData.isEmpty()) {
+	        System.out.println("No Records Found Between Two Dates...");
+	    } else {
+	        for (Map<String, Object> customer : custData) {
+	            System.out.println("Customer ID	  : " + customer.get("custId"));
+	            System.out.println("Customer Name : " + customer.get("custName"));
+	            System.out.println("Table Number  : " + customer.get("tableNumber"));
+	            System.out.println("Bill Date: " + customer.get("billDate"));
+	            System.out.println("--------------------------------------------");
+	        }
+	    }
+	}
+	
+	
+	
+	public static void showTableWithHighestCustomers() {
+		
+		System.out.println("-----------> ALL RESTAURENT CUSTOMER RECORDS WITH HEIGHEST TABLE NUMBER <-----------------");
+
+
+	    Map<String, Object> heighest = restoInfoService.getTableWithHighestCustomers();
+
+	    System.out.println();
+	    if (heighest == null || heighest.isEmpty()) {
+	    	
+	        System.out.println("Heighest Table Records Not Found...");
+	        
+	    } else {
+	        System.out.println("Table Number    : " + heighest.get("tableNumber"));
+	        System.out.println("Total Customers : " + heighest.get("totalCustomers"));
+	    }
+	}
+
+
 
 
 }

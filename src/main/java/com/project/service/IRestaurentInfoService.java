@@ -10,5 +10,7 @@ public interface IRestaurentInfoService {
 	public List<Map<String, Object>> displayMonthlyInfo();
 	public List<Map<String, Object>> displayDailyInfo();
 	public List<Map<String, Object>> displayYearlyInfo();
+	public List<Map<String, Object>> getCustomersBetweenDates(String startDate, String endDate);
+	public Map<String, Object> getTableWithHighestCustomers();
 
 }
