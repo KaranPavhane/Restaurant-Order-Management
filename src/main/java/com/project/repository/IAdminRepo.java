@@ -7,4 +7,9 @@ public interface IAdminRepo {
 //	public boolean deleteAdminByUserName(String username);
 	
 	public boolean loginAdmin(String username,  String password);
+	
+	public boolean verifyAdminDOB(String username, String dob);
+	
+	public boolean updateAdminPassword(String username, String newPassword);
+	
 }

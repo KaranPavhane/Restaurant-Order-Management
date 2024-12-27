@@ -10,10 +10,40 @@ public class RestaurentInfoServiceImpl implements IRestaurentInfoService {
 
 	private IRestaurestInfoRepository restInfoRepo = new RestaurentInfoRepositoryImpl();
 	
+	
+	
+	@Override
+	public List<Map<String, Object>> displayDailyInfo() {
+		
+		return restInfoRepo.displayDailyInfo();
+	}
+
+	@Override
+	public List<Map<String, Object>> displayWeeklyInfo() {
+		
+		return restInfoRepo.displayWeeklyInfo();
+	}
+	
+	@Override
+	public List<Map<String, Object>> displayMonthlyInfo() {
+		
+		return restInfoRepo.displayMonthlyInfo();
+	}
+
+	
+
+	@Override
+	public List<Map<String, Object>> displayYearlyInfo() {
+		
+		return restInfoRepo.displayYearlyInfo();
+	}
+	
 	@Override
 	public List<Map<String, Object>> displayAllInfo() {
 		
 		return restInfoRepo.displayAllInfo();
 	}
+
+	
 
 }

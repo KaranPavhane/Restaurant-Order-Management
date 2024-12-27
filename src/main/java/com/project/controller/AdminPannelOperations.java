@@ -39,7 +39,7 @@ public class AdminPannelOperations {
 
 	static Scanner scn = new Scanner(System.in);
 
-	public static void loginAsAdmin() {
+	/*public static void loginAsAdmin() {
 		System.out.println();
 		System.out.println("---Enter Admin Username and Password---");
 		System.out.println("--------------------------------------------");
@@ -48,7 +48,7 @@ public class AdminPannelOperations {
 		String username = scn.nextLine();
 		System.out.println("Enter Password :: ");
 		String password = scn.nextLine();
-
+	
 		if (adminService.loginAdmin(username, password)) {
 			logger.info("Admin Login Successfully :-> You Can Manage Your Restaurant...");
 			System.out.println();
@@ -57,7 +57,108 @@ public class AdminPannelOperations {
 			System.out.println("Login Faild Try Again..!!");
 			logger.error("-->Login Faild Please Check Username and password.!!!");
 		}
+	}*/
+	
+	
+	
+	public static void loginAsAdmin() {
+	    System.out.println();
+	    System.out.println("--- Welcome to Admin Login ---");
+	    System.out.println("--------------------------------------------");
+	    System.out.println();
+
+	    int attempts = 0; 
+	    boolean flag = false; 
+
+	    do {
+	        System.out.println("Enter User Name :: ");
+	        String username = scn.nextLine();
+	        System.out.println("Enter Password :: ");
+	        String password = scn.nextLine();
+
+	        if (adminService.loginAdmin(username, password)) {
+	        	
+	            logger.info("Admin Login Successfully  :-> You Can Manage Your Restaurant...");
+	            System.out.println();
+	            AdminCurd(); 
+	            flag = true; 
+	            break;
+	        } else {
+	            attempts++;
+	            System.out.println("Login Failed. Attempts remaining: " + (3 - attempts));
+	            logger.error("--> Login Failed. Please check Username and Password.!!!");
+	            System.out.println();
+	        }
+
+	        if (attempts == 3 && !flag) {
+	            System.out.println("Your are Trying More Than  "+ attempts +" !");
+	            System.out.println("You Can Reste Your Password.");
+	            System.out.println();
+	            
+	            resetAdminPassword(); 
+	            
+	            break;
+	        }
+	    } while (attempts < 3);
+
+	    if (!flag) {
+	        System.out.println("🙏 Login Process Ended...🙏");
+	        System.out.println();
+	    }
 	}
+
+	public static void resetAdminPassword() {
+	    System.out.println();
+	    System.out.println("--- Reset Admin Password ---");
+	    System.out.println();
+	
+	    System.out.println("Enter Admin Username :: ");
+	    String username = scn.nextLine();
+	
+	    System.out.println("Enter your Date of Birth (YYYY-MM-DD) :: ");
+	    String dob = scn.nextLine();
+	
+	    if (adminService.verifyAdminDOB(username, dob)) {
+	    	
+	        System.out.println("Verification Successful..!");
+	        System.out.println();
+	        
+	        System.out.println("Enter Your new Password :: ");
+	        String newPassword = scn.nextLine();
+	        
+	        System.out.println("Confirm Your New Password :: ");
+	        String confirmPassword = scn.nextLine();
+	
+	        if (newPassword.equals(confirmPassword)) {
+	        	
+	            if (adminService.updateAdminPassword(username, newPassword)) {
+	            	
+	            	
+	                System.out.println("Password Reste Successfully..! You Can Login Now... 😊");
+	                
+	                logger.info("Password Reset Successfully For Admin :: " + username);
+	            } else {
+	            	
+	                System.out.println("Error Resetting Password. Please Try Again 🙏");
+	                
+	                logger.error("Failed to Reset Password For Admin :: " + username);
+	            }
+	        } else {
+	        	
+	            System.out.println("Passwords Do Not Match. Please Try Resetting Again...");
+	            
+	            logger.warn("Password Mismatch During Reset.");
+	        }
+	    } else {
+	        System.out.println("Verification Failed..! Username or DOB is Incorrect.");
+	        
+	        logger.error("Verification Failed For Username :: " + username);
+	    }
+	}
+	
+	
+	
+	
 
 //========================================================================================================================	
 
@@ -67,13 +168,13 @@ public class AdminPannelOperations {
 		System.out.println("-------> Restaurent Order Management System <---------");
 
 		do {
-			System.out.println("<<<-- Enter 0 FOR ADD NEW ADMIN -->>> ");
-			System.out.println("<<<-- Enter 1 FOR STAFF MANAGE -->>> ");
-			System.out.println("<<<-- Enter 2 FOR TABLES MANAGE -->>> ");
-			System.out.println("<<<-- Enter 3 FOR CATEGRY MANAGEMENT -->>> ");
-			System.out.println("<<<-- Enter 4 FOR MENU MANAGEMENT -->>> ");
-			System.out.println("<<<-- Enter 5 SHOW ALL RESTAURENT DETAILS -->>> ");
-			System.out.println("<<<-- Enter 6 FOR EXIT THE APPLICATION -->>> ");
+			System.out.println("<<<-- ENTER 0 FOR ADD NEW ADMIN -->>> ");
+			System.out.println("<<<-- ENTER 1 FOR STAFF MANAGE -->>> ");
+			System.out.println("<<<-- ENTER 2 FOR TABLES MANAGE -->>> ");
+			System.out.println("<<<-- ENTER 3 FOR CATEGRY MANAGEMENT -->>> ");
+			System.out.println("<<<-- ENTER 4 FOR MENU MANAGEMENT -->>> ");
+			System.out.println("<<<-- ENTER 5 MANAGE RESTAURENT REPORTS -->>> ");
+			System.out.println("<<<-- ENTER 6 FOR EXIT THE APPLICATION -->>> ");
 			System.out.println();
 
 			System.out.println("Enter Your Choice :: ");
@@ -109,7 +210,7 @@ public class AdminPannelOperations {
 				break;
 
 			case 5:
-				showAllCustomers();
+				manageRestaurentReports();
 				System.out.println();
 				break;
 
@@ -515,8 +616,6 @@ public class AdminPannelOperations {
 
 	}
 
-	
-	
 	// for adding categeries
 	private static void addCategery() {
 		scn.nextLine();
@@ -534,7 +633,6 @@ public class AdminPannelOperations {
 		}
 
 	}
-	
 
 	// show all Categeries
 	private static void showAllCategeries() {
@@ -669,8 +767,6 @@ public class AdminPannelOperations {
 		} while (true);
 
 	}
-	
-	
 
 	// for adding menus by given categery
 	private static void addMenuesGivenByCategery() {
@@ -785,44 +881,246 @@ public class AdminPannelOperations {
 
 	}
 
-	
-	
 //========================================================================================================================	
 
-	
-	
-	private static void showAllCustomers() {
+	public static void manageRestaurentReports() {
+
+		int choice;
+		System.out.println();
+
+		do {
+
+			System.out.println("1.Show Daily Customer Records ");
+			System.out.println("2.Show Weekly Customer Records ");
+			System.out.println("3.Show Mothly Customer Records ");
+			System.out.println("4.Show Yearly Customer Records ");
+			System.out.println("5.Show All Customer Records ");
+			System.out.println("6.Back to Main Menu");
+			System.out.println("-------------------------");
+
+			System.out.println();
+			System.out.println("Enter Your Choice : ");
+			choice = scn.nextInt();
+
+			switch (choice) {
+
+			case 1:
+				showAllRestaurentCustomersDaily();
+				System.out.println();
+				break;
+
+			case 2:
+				showAllRestaurentCustomersWeekly();
+				System.out.println();
+				break;
+
+			case 3:
+				showAllRestaurentCustomersMothly();
+				System.out.println();
+				break;
+
+			case 4:
+				showAllRestaurentCustomersYearly();
+				System.out.println();
+				break;
+
+			case 5:
+				showAllRestaurentCustomerDetails();
+				System.out.println();
+				break;
+
+			case 6:
+				return;
+
+			}
+		} while (true);
+
+	}
+
+	public static void showAllRestaurentCustomersDaily() {
+
+		List<Map<String, Object>> dailyInfo = restoInfoService.displayDailyInfo();
 		
+		
+		System.out.println("-----------> DAILY CUSTOMER RECORDS <-----------------");
+		System.out.println();
+
+		if (dailyInfo == null || dailyInfo.isEmpty()) {
+			System.out.println("No records found for today.");
+			return;
+		}
+		
+		
+		for (Map<String, Object> restaurantData : dailyInfo) {
+			
+			
+			
+			System.out.println("Customer ID       ::\t\t " + restaurantData.get("custId"));
+			System.out.println("Customer Name     ::\t\t " + restaurantData.get("custName"));
+			System.out.println("Customer Contact  ::\t\t " + restaurantData.get("contact"));
+			System.out.println("Customer Email    ::\t\t " + restaurantData.get("email"));
+			System.out.println("Category Name     ::\t\t " + restaurantData.get("categoryName"));
+			System.out.println("Menu Name         ::\t\t " + restaurantData.get("menuName"));
+			System.out.println("Menu Price        ::\t\t " + restaurantData.get("price"));
+			System.out.println("Table Number      ::\t\t " + restaurantData.get("tableNumber"));
+			System.out.println("CGST              ::\t\t " + restaurantData.get("cgst"));
+			System.out.println("SGST              ::\t\t " + restaurantData.get("sgst"));
+			System.out.println("Discount 		  ::\t\t " + restaurantData.get("discount"));
+			System.out.println("Grand Total 	  ::\t\t " + restaurantData.get("grandTotal"));
+			System.out.println("Bill Date 		  ::\t\t " + restaurantData.get("billDate"));
+			System.out.println();
+			System.out.println("-------------------------------------------------------");
+			System.out.println();
+		}
+
+		System.out.println();
+	}
+
+	public static void showAllRestaurentCustomersWeekly() {
+
+		List<Map<String, Object>> weeklyInfo = restoInfoService.displayWeeklyInfo();
+
+		System.out.println("-----------> WEEKLY CUSTOMER RECORDS <-----------------");
+		System.out.println();
+
+		if (weeklyInfo == null || weeklyInfo.isEmpty()) {
+			System.out.println("No records found for the past week.");
+			return;
+		}
+
+		for (Map<String, Object> restaurantData : weeklyInfo) {
+			System.out.println("Customer ID       ::\t\t " + restaurantData.get("custId"));
+			System.out.println("Customer Name     ::\t\t " + restaurantData.get("custName"));
+			System.out.println("Customer Contact  ::\t\t " + restaurantData.get("contact"));
+			System.out.println("Customer Email    ::\t\t " + restaurantData.get("email"));
+			System.out.println("Category Name     ::\t\t " + restaurantData.get("categoryName"));
+			System.out.println("Menu Name         ::\t\t " + restaurantData.get("menuName"));
+			System.out.println("Menu Price        ::\t\t " + restaurantData.get("price"));
+			System.out.println("Table Number      ::\t\t " + restaurantData.get("tableNumber"));
+			System.out.println("CGST              ::\t\t " + restaurantData.get("cgst"));
+			System.out.println("SGST              ::\t\t " + restaurantData.get("sgst"));
+			System.out.println("Discount          ::\t\t " + restaurantData.get("discount"));
+			System.out.println("Grand Total 	  ::\t\t " + restaurantData.get("grandTotal"));
+			System.out.println("Bill Date         ::\t\t " + restaurantData.get("billDate"));
+			System.out.println();
+			System.out.println("-------------------------------------------------------");
+			System.out.println();		}
+
+		System.out.println();
+	}
+
+	public static void showAllRestaurentCustomersMothly() {
+
+		List<Map<String, Object>> monthlyInfo = restoInfoService.displayMonthlyInfo();
+
+		System.out.println("-----------> MONTHLY CUSTOMER RECORDS <-----------------");
+		System.out.println();
+
+		if (monthlyInfo == null || monthlyInfo.isEmpty()) {
+			System.out.println("No records found for the current month.");
+			return;
+		}
+
+		for (Map<String, Object> restaurantData : monthlyInfo) {
+			System.out.println("Customer ID       ::\t\t " + restaurantData.get("custId"));
+			System.out.println("Customer Name     ::\t\t " + restaurantData.get("custName"));
+			System.out.println("Customer Contact  ::\t\t " + restaurantData.get("contact"));
+			System.out.println("Customer Email    ::\t\t " + restaurantData.get("email"));
+			System.out.println("Category Name     ::\t\t " + restaurantData.get("categoryName"));
+			System.out.println("Menu Name         ::\t\t " + restaurantData.get("menuName"));
+			System.out.println("Menu Price        ::\t\t " + restaurantData.get("price"));
+			System.out.println("Table Number      ::\t\t " + restaurantData.get("tableNumber"));
+			System.out.println("CGST              ::\t\t " + restaurantData.get("cgst"));
+			System.out.println("SGST              ::\t\t " + restaurantData.get("sgst"));
+			System.out.println("Discount          ::\t\t " + restaurantData.get("discount"));
+			System.out.println("Grand Total 	  ::\t\t " + restaurantData.get("grandTotal"));
+			System.out.println("Bill Date         ::\t\t " + restaurantData.get("billDate"));
+			System.out.println();
+			System.out.println("-------------------------------------------------------");
+			System.out.println();
+		}
+
+		System.out.println();
+
+	}
+
+	public static void showAllRestaurentCustomersYearly() {
+
+		List<Map<String, Object>> yearlyInfo = restoInfoService.displayYearlyInfo();
+
+		System.out.println("-----------> YEARLY CUSTOMER RECORDS <-----------------");
+		System.out.println();
+
+		
+		if (yearlyInfo == null || yearlyInfo.isEmpty()) {
+			System.out.println("No records found for the past year.");
+			return;
+		}
+
+		for (Map<String, Object> restaurantData : yearlyInfo) {
+			System.out.println("Customer ID       ::\t\t " + restaurantData.get("custId"));
+			System.out.println("Customer Name     ::\t\t " + restaurantData.get("custName"));
+			System.out.println("Customer Contact  ::\t\t " + restaurantData.get("contact"));
+			System.out.println("Customer Email    ::\t\t " + restaurantData.get("email"));
+			System.out.println("Category Name     ::\t\t " + restaurantData.get("categoryName"));
+			System.out.println("Menu Name         ::\t\t " + restaurantData.get("menuName"));
+			System.out.println("Menu Price        ::\t\t " + restaurantData.get("price"));
+			System.out.println("Table Number      ::\t\t " + restaurantData.get("tableNumber"));
+			System.out.println("CGST              ::\t\t " + restaurantData.get("cgst"));
+			System.out.println("SGST              ::\t\t " + restaurantData.get("sgst"));
+			System.out.println("Discount          ::\t\t " + restaurantData.get("discount"));
+			System.out.println("Grand Total 	  ::\t\t " + restaurantData.get("grandTotal"));
+			System.out.println("Bill Date         ::\t\t " + restaurantData.get("billDate"));
+			System.out.println();
+			System.out.println("-------------------------------------------------------");
+			System.out.println();
+		}
+
+		System.out.println();
+	}
+
+	private static void showAllRestaurentCustomerDetails() {
+
 		
 		List<Map<String, Object>> displayAllInfo = restoInfoService.displayAllInfo();
 		
 		
-		for(Map<String, Object> restorentData : displayAllInfo) {
+		System.out.println("-----------> ALL RESTAURENT CUSTOMER RECORDS <-----------------");
+		System.out.println();
+
+		if (displayAllInfo == null || displayAllInfo.isEmpty()) {
+			System.out.println("No records found for the past year.");
+			return;
+		}
+		
+
+		for (Map<String, Object> restorentData : displayAllInfo) {
 			
-			System.out.println("Custmoer Id ::\t\t "+ restorentData.get("custId"));
-			System.out.println("Custmoer Name ::\t "+ restorentData.get("custName"));
-			System.out.println("Custmoer Contact ::\t "+ restorentData.get("contact"));
-			System.out.println("Custmoer Email ::\t "+ restorentData.get("email"));
-			System.out.println("Categery Name ::\t "+ restorentData.get("categoryName"));
-			System.out.println("Menu Name ::\t\t "+ restorentData.get("menuName"));
-			System.out.println("Menu Price ::\t\t "+ restorentData.get("price"));
-			System.out.println("Table Number ::\t\t "+ restorentData.get("tableNumber"));
-			System.out.println("CGST ::\t\t\t "+ restorentData.get("cgst"));
-			System.out.println("SGST ::\t\t\t "+ restorentData.get("sgst"));
-			System.out.println("Discount ::\t\t "+ restorentData.get("discount"));
-			System.out.println("Grand Total ::\t\t "+ restorentData.get("grandTotal"));
-			System.out.println("Bill Date ::\t\t "+ restorentData.get("billDate"));
+			System.out.println("Custmoer Id 	  ::\t\t " + restorentData.get("custId"));
+			System.out.println("Custmoer Name 	  ::\t\t " + restorentData.get("custName"));
+			System.out.println("Custmoer Contact  ::\t\t" + restorentData.get("contact"));
+			System.out.println("Custmoer Email 	  ::\t\t " + restorentData.get("email"));
+			System.out.println("Categery Name 	  ::\t\t " + restorentData.get("categoryName"));
+			System.out.println("Menu Name 	   	  ::\t\t " + restorentData.get("menuName"));
+			System.out.println("Menu Price 		  ::\t\t " + restorentData.get("price"));
+			System.out.println("Table Number 	  ::\t\t " + restorentData.get("tableNumber"));
+			System.out.println("CGST 			  ::\t\t " + restorentData.get("cgst"));
+			System.out.println("SGST 			  ::\t\t " + restorentData.get("sgst"));
+			System.out.println("Discount          ::\t\t " + restorentData.get("discount"));
+			System.out.println("Grand Total 	  ::\t\t " + restorentData.get("grandTotal"));
+			System.out.println("Bill Date         ::\t\t " + restorentData.get("billDate"));
 			System.out.println();
-			
-			System.out.println("===========================================================");
+
+			System.out.println("-------------------------------------------------------");
 			System.out.println();
-			
+
 		}
 
 		System.out.println();
-		
-		
+
 	}
+	
+
 
 }
 
@@ -853,6 +1151,112 @@ delimiter ;
 
 
 CALL getAllRestaurentData();
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE getAllRestaurentDataWeekly()
+BEGIN
+    SELECT
+        c.cust_id, c.cust_name, c.contact, c.email,
+        cat.categery_name,
+        m.menu_name, m.price,
+        t.table_number,
+        b.CGST, b.SGST, b.discount, b.grand_total, b.bill_date
+    FROM customer_master c
+    INNER JOIN order_master o ON c.cust_id = o.cust_id
+    INNER JOIN bill_master b ON o.order_id = b.order_id
+    INNER JOIN resto_table t ON b.table_id = t.table_id
+    INNER JOIN order_menu_join omj ON o.order_id = omj.order_id
+    INNER JOIN menu_master m ON omj.menu_id = m.menu_id
+    INNER JOIN categery_master cat ON m.categery_id = cat.categery_id
+    WHERE b.bill_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
+END //
+
+CALL getAllRestaurentDataWeekly()
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE getAllRestaurentDataDaily()
+BEGIN
+    SELECT
+        c.cust_id, c.cust_name, c.contact, c.email,
+        cat.categery_name,
+        m.menu_name, m.price,
+        t.table_number,
+        b.CGST, b.SGST, b.discount, b.grand_total, b.bill_date
+    FROM customer_master c
+    INNER JOIN order_master o ON c.cust_id = o.cust_id
+    INNER JOIN bill_master b ON o.order_id = b.order_id
+    INNER JOIN resto_table t ON b.table_id = t.table_id
+    INNER JOIN order_menu_join omj ON o.order_id = omj.order_id
+    INNER JOIN menu_master m ON omj.menu_id = m.menu_id
+    INNER JOIN categery_master cat ON m.categery_id = cat.categery_id
+    WHERE DATE(b.bill_date) = CURDATE();
+END //
+
+DELIMITER ;
+
+
+ call getAllRestaurentDataDaily()
+ 
+ 
+ DELIMITER //
+
+CREATE PROCEDURE getAllRestaurentDataYearly()
+BEGIN
+    SELECT
+        c.cust_id, c.cust_name, c.contact, c.email,
+        cat.categery_name,
+        m.menu_name, m.price,
+        t.table_number,
+        b.CGST, b.SGST, b.discount, b.grand_total, b.bill_date
+    FROM customer_master c
+    INNER JOIN order_master o ON c.cust_id = o.cust_id
+    INNER JOIN bill_master b ON o.order_id = b.order_id
+    INNER JOIN resto_table t ON b.table_id = t.table_id
+    INNER JOIN order_menu_join omj ON o.order_id = omj.order_id
+    INNER JOIN menu_master m ON omj.menu_id = m.menu_id
+    INNER JOIN categery_master cat ON m.categery_id = cat.categery_id
+    WHERE b.bill_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR); -- Filters data from the last year
+END //
+
+DELIMITER ;
+
+call getAllRestaurentDataYearly()
+
+
+DELIMITER //
+
+CREATE PROCEDURE getAllRestaurentDataMonthly()
+BEGIN
+    SELECT
+        c.cust_id, c.cust_name, c.contact, c.email,
+        cat.categery_name,
+        m.menu_name, m.price,
+        t.table_number,
+        b.CGST, b.SGST, b.discount, b.grand_total, b.bill_date
+    FROM customer_master c
+    INNER JOIN order_master o ON c.cust_id = o.cust_id
+    INNER JOIN bill_master b ON o.order_id = b.order_id
+    INNER JOIN resto_table t ON b.table_id = t.table_id
+    INNER JOIN order_menu_join omj ON o.order_id = omj.order_id
+    INNER JOIN menu_master m ON omj.menu_id = m.menu_id
+    INNER JOIN categery_master cat ON m.categery_id = cat.categery_id
+    WHERE YEAR(b.bill_date) = YEAR(CURDATE()) -- Current Year
+      AND MONTH(b.bill_date) = MONTH(CURDATE()); -- Current Month
+END //
+
+DELIMITER ;
+
+
+call getAllRestaurentDataMonthly();
+
+
 
 
 */
