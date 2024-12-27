@@ -22,7 +22,6 @@ public class RestaurantManagementSystem {
 		System.out.println("<<==== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ====>>");
 		System.out.println(" << ENTER 1 FOR ADMIN PANNAL MANAGEMENT >> ");
 		System.out.println(" << ENTER 2 FOR LOGIN AS CUSTOMER >>");
-
 		System.out.println("<<=======================================>>");
 		int choice = sc.nextInt();
 
@@ -46,4 +45,3 @@ public class RestaurantManagementSystem {
 
 	}
 }
-

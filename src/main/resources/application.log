@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2024-12-24 13:51:11 [main] INFO  com.project.client.RestaurantManagementSystem - Mian Mehtod Started...
 2024-12-24 13:51:17 [main] ERROR com.project.repository.StaffRepositoryImpl - -->Login Faild Please Check Username and password.!!!
 2024-12-24 13:51:17 [main] INFO  com.project.client.RestaurantManagementSystem - Main Method End...
@@ -102,3 +103,5 @@
 2024-12-27 16:02:13 [main] ERROR com.project.repository.StaffRepositoryImpl - --> Login Failed. Please check Username and Password.!!!
 2024-12-27 16:02:42 [main] ERROR com.project.repository.StaffRepositoryImpl - Failed to Reset Password For Admin :: gokul
 2024-12-27 16:02:42 [main] INFO  com.project.client.RestaurantManagementSystem - Main Method End...
+=======
+>>>>>>> c2c7d3d7287d6203a988d3f8aa8eb07b0dace77f
