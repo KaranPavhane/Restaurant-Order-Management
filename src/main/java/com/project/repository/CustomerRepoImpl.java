@@ -13,7 +13,7 @@ import com.project.model.TableModel;
 public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 
 // ====================================================================================================================================================
-	
+
 	public String getStaffNameByTableId(int table_id) {
 
 		try {
@@ -120,8 +120,7 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 	public List<MenuModel> getMenuByCategery(String cat_Name) {
 		List<MenuModel> list = null;
 		int categery_Id = this.getCategeryIdByName(cat_Name);
-		System.out.println("Categery is :: " + categery_Id);
-
+		//System.out.println("Categery is :: " + categery_Id);
 		try {
 			ps = con.prepareStatement("Select * from menu_master where categery_id=?");
 			ps.setInt(1, categery_Id);
@@ -151,13 +150,13 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 		try {
 			CustomerModel cust = placeOrder.getCustModel();
 			List<MenuModel> menuModel = placeOrder.getList();
-			String custName = cust.getCust_name();
+		//	String custName = cust.getCust_name();
 			String contact = cust.getContact();
-			String email = cust.getEmail();
-			int grandTotal=0;
-			int table_number=placeOrder.getTable_number();
-			int v=insertCustomerDetails(cust);
-			System.out.println("value return by customer is :: "+v);
+			//String email = cust.getEmail();
+			int grandTotal = 0;
+			int table_number = placeOrder.getTable_number();
+			int v = insertCustomerDetails(cust);
+			System.out.println("value return by customer is :: " + v);
 //			ps = con.prepareStatement("insert into customer_master values ('0',?,?,?)");
 //			ps.setString(1, custName);
 //			ps.setString(2, contact);
@@ -170,44 +169,45 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 				ps.setInt(1, custId);
 				int value = ps.executeUpdate();
 				if (value > 0) {
-					
+
 					int orderId = this.getOrderIdByCustomerId(custId);
 					for (MenuModel model : menuModel) {
 						String menu_name = model.getMenu_name();
 						int menu_id = getMenuIdByMenuName(menu_name);
-						int menu_price=getMenuPriceByMenuId(menu_id);
+						int menu_price = getMenuPriceByMenuId(menu_id);
 						int qty = model.getQty();
-						grandTotal=grandTotal+(menu_price*qty);	
-	
-						ps = con.prepareStatement("insert into order_menu_join values (?,?,?)");
+						grandTotal = grandTotal + (menu_price * qty);
+
+						ps = con.prepareStatement("insert into order_menu_join values (?,?,?,?)");
 						ps.setInt(1, orderId);
 						ps.setInt(2, menu_id);
 						ps.setInt(3, qty);
+						ps.setString(4, "Pending");
 						value = ps.executeUpdate();
-						
+
 					}
 					if (value > 0) {
-						ps=con.prepareStatement("update resto_table set status='Occupied' where table_number=?");
+						ps = con.prepareStatement("update resto_table set status='Occupied' where table_number=?");
 						ps.setInt(1, table_number);
-						value=ps.executeUpdate();
-						if(value>0) {
-							int table_id=getTableIdByTableNumber(table_number);
-							grandTotal=grandTotal-(grandTotal*10/100);
-									
-									
-							ps=con.prepareStatement("insert into bill_master (bill_id,order_id,cust_id,grand_total,table_id) values('0',?,?,?,?)");
+						value = ps.executeUpdate();
+						if (value > 0) {
+							int table_id = getTableIdByTableNumber(table_number);
+							grandTotal = grandTotal - (grandTotal * 10 / 100);
+
+							ps = con.prepareStatement(
+									"insert into bill_master (bill_id,order_id,cust_id,grand_total,table_id) values('0',?,?,?,?)");
 							ps.setInt(1, orderId);
 							ps.setInt(2, custId);
 							ps.setInt(3, grandTotal);
 							ps.setInt(4, table_id);
-							value=ps.executeUpdate();
-							if(value>0) {
-								
-								ps=con.prepareStatement("select max(bill_id) from bill_master");
-								rs=ps.executeQuery();
-								while(rs.next()) {
+							value = ps.executeUpdate();
+							if (value > 0) {
+
+								ps = con.prepareStatement("select max(bill_id) from bill_master");
+								rs = ps.executeQuery();
+								while (rs.next()) {
 									return rs.getInt(1);
-								}	
+								}
 							}
 						}
 					}
@@ -223,25 +223,44 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 	}
 
 // =================================================================================================================================
-	
+
 	public int insertCustomerDetails(CustomerModel custModel) {
-		
+
 		try {
-			ps=con.prepareStatement("insert into customer_master values ('0',?,?,?)");
-			ps.setString(1, custModel.getCust_name());
-			ps.setString(2, custModel.getContact());
-			ps.setString(3, custModel.getEmail());
-			int value=ps.executeUpdate();
-			if(value>0) {
-				return value;
+			String email = checkCustomerPresent(custModel);
+			if (!custModel.getEmail().equals(email)) {
+				ps = con.prepareStatement("insert into customer_master values ('0',?,?,?)");
+				ps.setString(1, custModel.getCust_name());
+				ps.setString(2, custModel.getContact());
+				ps.setString(3, custModel.getEmail());
+				int value = ps.executeUpdate();
+				if (value > 0) {
+					return value;
+				}
 			}
-			
-			
-		}catch(Exception ex) {
-			System.out.println("Error is in insertCustomerDetails :: "+ex);
+		} catch (Exception ex) {
+			System.out.println("Error is in insertCustomerDetails :: " + ex);
 		}
-		return 0;
-		
+
+		return 1;
+	}
+
+	public String checkCustomerPresent(CustomerModel custModel) {
+		try {
+			String email = custModel.getEmail();
+			ps = con.prepareStatement("select * from customer_master where email=?");
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				return rs.getString("email");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Error in checkCustomerPresent :: " + e);
+		}
+
+		return null;
+
 	}
 
 	public int getCustomerIdByName(String contact) {
@@ -289,40 +308,38 @@ public class CustomerRepoImpl extends DBConfig implements ICustomerRepo {
 		}
 		return 0;
 	}
-	
+
 	public int getTableIdByTableNumber(int table_number) {
-		
+
 		try {
-			ps=con.prepareStatement("select table_id from resto_table where table_number=?");
+			ps = con.prepareStatement("select table_id from resto_table where table_number=?");
 			ps.setInt(1, table_number);
-			rs=ps.executeQuery();
-			while(rs.next()) {
+			rs = ps.executeQuery();
+			while (rs.next()) {
 				return rs.getInt(1);
 			}
-			
-		}catch(Exception ex){
-			System.out.println("Error is in getTableIdByTableNumber : "+ex);
+
+		} catch (Exception ex) {
+			System.out.println("Error is in getTableIdByTableNumber : " + ex);
 		}
 		return 0;
 	}
-	
+
 	public int getMenuPriceByMenuId(int menuId) {
-		
-		
+
 		try {
-			ps=con.prepareStatement("select price from menu_master where menu_id =?");
+			ps = con.prepareStatement("select price from menu_master where menu_id =?");
 			ps.setInt(1, menuId);
-			rs=ps.executeQuery();
-			while(rs.next()) {
+			rs = ps.executeQuery();
+			while (rs.next()) {
 				return rs.getInt("price");
 			}
-			
-			
-		}catch(Exception ex) {
-			System.out.println("Error in getMenuPriceByMenuId :"+ex);
+
+		} catch (Exception ex) {
+			System.out.println("Error in getMenuPriceByMenuId :" + ex);
 		}
 		return 1;
-		
+
 	}
 // =================================================================================================================================
 

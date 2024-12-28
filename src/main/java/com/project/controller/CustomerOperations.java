@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 import com.project.model.BillModel;
@@ -26,7 +27,7 @@ import jakarta.mail.internet.MimeMessage;
 public class CustomerOperations {
 
 	static ICustomerService custService = new CustomerServiceImpl();
-	static ICustomerBillService billService=new CustomerBillServiceImpl();
+	static ICustomerBillService billService = new CustomerBillServiceImpl();
 	static Scanner sc = new Scanner(System.in);
 
 	public static void custFunction() {
@@ -47,11 +48,12 @@ public class CustomerOperations {
 				break;
 
 			case 3:
-				System.exit(0);
-				break;
+				System.out.println("Thank You Sir");
+
 			}
 		} while (true);
 	}
+
 //=================================================================================================================================================
 	public static void callCustomerOperations() {
 		availableTable(); // for showing the available tables
@@ -120,7 +122,7 @@ public class CustomerOperations {
 
 		int bill = custService.isPlacedNewOrder(placeOrder);
 		if (bill > 0) {
-			System.out.println("Your Order Comes Within 10 Minutes ");
+			System.out.println("Your Order Comes Within 10 Minutes \n");
 			System.out.println("You Must Need Remember This Order Id at the time of Billing :: " + bill);
 		} else {
 			System.out.println("Some Thing Issuee....");
@@ -142,8 +144,8 @@ public class CustomerOperations {
 		List<MenuModel> list = custService.getMenuByCategery(cat_Name);
 		System.out.println("======================================");
 		for (MenuModel model : list) {
-//			System.out.println(model.getMenu_id() + "\t" + model.getMenu_name() + "\t" + model.getPrice() + "\t"
-//					+ model.getDescription());
+			System.out.println(model.getMenu_id() + "\t" + model.getMenu_name() + "\t" + model.getPrice() + "\t"
+					+ model.getDescription());
 		}
 		System.out.println("======================================");
 	}
@@ -169,115 +171,125 @@ public class CustomerOperations {
 
 	public static void callCustomerBillOperation() {
 
-		StringBuffer str=new StringBuffer();
+		StringBuffer str = new StringBuffer();
 		System.out.println("Enter Your order Id  ");
 		int bill_id = sc.nextInt();
-		str.append("---------------------------------------------------\n");
-		str.append("<<<============== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ============>>>\n");
-		str.append("Bill ID :: "+bill_id+"\n");
-		
-		
-		BillModel billModel=billService.getBillDetails(bill_id);
-	
-		int cust_id=billModel.getCust_id();
-		int order_id=billModel.getOrder_id();
-		int cgst=billModel.getCGST();
-		int sgst=billModel.getSGST();
-		int discount=billModel.getDiscount();
-		int grandTotal=billModel.getGrand_total();
-		int table_id=billModel.getTable_id();
-		String bill_date=billModel.getBill_date();
-		
+		// str.append("---------------------------------------------------\n");
+		str.append("\n<<<============== 🙏 WELL COME TO MAULI RESTAURANT 🙏 ============>>>\n\n");
+
+		BillModel billModel = billService.getBillDetails(bill_id);
+
+		int cust_id = billModel.getCust_id();
+		int order_id = billModel.getOrder_id();
+		int cgst = billModel.getCGST();
+		int sgst = billModel.getSGST();
+		int discount = billModel.getDiscount();
+		int grandTotal = billModel.getGrand_total();
+		// int table_id = billModel.getTable_id();
+		String bill_date = billModel.getBill_date();
+		str.append("Bill ID :: " + bill_id + "                               Date: " + bill_date + "\n");
+
 //		System.out.println(bill_id+"\t"+cust_id+"\t"+order_id+"\t"+cgst+"\t"+sgst+"\t"+discount+"\t"+grandTotal+"\t"+table_id+"\t"+bill_date);
-		
-		CustomerModel custModel=getCustomerDetailsById(cust_id);
-		System.out.println(custModel.getCust_id()+"\t"+custModel.getCust_name()+"\t"+custModel.getContact()+"\t"+custModel.getEmail());
-		str.append("Customer Name : "+custModel.getCust_name()+"\n");
-		str.append("Customer Contact : "+custModel.getContact()+"\n");
-		str.append("Customer Email : "+custModel.getEmail()+"\n");
-		str.append("====================Your Order ===========================\n\n");
+
+		CustomerModel custModel = getCustomerDetailsById(cust_id);
+//		System.out.println(custModel.getCust_id()+"\t"+custModel.getCust_name()+"\t"+custModel.getContact()+"\t"+custModel.getEmail());
+		str.append("Customer Name : " + custModel.getCust_name() + "\n");
+		str.append("Customer Contact : " + custModel.getContact() + "\n");
+		str.append("Customer Email : " + custModel.getEmail() + "\n");
+		str.append("\n\n====================Your Order ===========================\n\n");
 		str.append("Sr.No.\tMenu Name          Qty\t\tprice\n");
-		
-		
-		
-		List<MenuModel> menuList=billService.getMenusByOrderId(order_id);
-		int i=1;
-		int price=0;
-		for(MenuModel menu:menuList) {
+
+		List<MenuModel> menuList = billService.getMenusByOrderId(order_id);
+		int i = 1;
+		int price = 0;
+		for (MenuModel menu : menuList) {
 //			System.out.println(menu.getMenu_id()+"\t"+menu.getMenu_name()+"\t"+menu.getPrice()+"\t"+menu.getQty()+"\t"+menu.getDescription());
-			str.append(i+"\t"+menu.getMenu_name()+"               "+menu.getQty()+"\t\t"+menu.getPrice()+"\n");
+			str.append(i + "\t" + menu.getMenu_name() + "                " + menu.getQty() + "\t\t " + menu.getPrice()
+					+ "\n");
 			i++;
-			price=price+(menu.getPrice()*menu.getQty());
+			price = price + (menu.getPrice() * menu.getQty());
 		}
 		str.append("-------------------------------------------------------------\n");
-		str.append("                                      Total Price :: "+price);
+		str.append("                                    Total Price :: " + price);
 
-		str.append("\n                                       SGST tax :: "+sgst+"%");
-		str.append("\n                                       CGST Tax :: "+cgst+"%");
-		str.append("\n                                       Discount :: "+discount+"%");
-		str.append("\n                                    Grand Total :: "+grandTotal);
-		
-		str.append("\n<<<=========== Thank You Sir Visit Again 🙏😊 =============>>>");
-		
+		str.append("\n                                       SGST tax :: " + sgst + "%");
+		str.append("\n                                       CGST Tax :: " + cgst + "%");
+		str.append("\n                                       Discount :: " + discount + "%");
+		str.append("\n                                   ----------------------------");
+		str.append("\n                                    Grand Total :: " + grandTotal);
+
+		str.append("\n\n<<<=========== Thank You Sir Visit Again 🙏😊 =============>>>");
+
 		System.out.println(str);
+
+//		String to = custModel.getEmail();
+//		String from = "pavhane21@gmail.com";
+//		String subject = "<<<======= MAULI RESTAURANT ========>>>";
+//		String text = new String(str);
+//		boolean b=SendMailToCustomer(to,from,subject,text);
+//		if(b) {
+//			System.out.println("You Can also Check Your Email For Bill Details....!!😊🙏");
+//		}else {
+//			System.out.println("not Valid Email");
+//		}
+
+		String to = custModel.getEmail();
+		String from = "pavhane21@gmail.com";
+		String subject = "<<<======== Your Bill ============>>>";
+		String text = new String(str);
+		boolean isSendMail = sendEmailToCustomer(to, from, subject, text);
+		if (isSendMail) {
+			System.out.println("Email Send Successfully......");
+		} else {
+			System.out.println("Email not send....");
+		}
+
 	}
-	
+
 	public static CustomerModel getCustomerDetailsById(int cust_id) {
-		
-		CustomerModel custModel=billService.getCustDetail(cust_id);
+
+		CustomerModel custModel = billService.getCustDetail(cust_id);
 		return custModel;
 	}
-	
-	
-public static boolean sendEmailToCustomer(String to, String from, String subject, String text) {
-		
+
+	public static boolean sendEmailToCustomer(String to, String from, String subject, String text) {
+
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", true);
-        properties.put("mail.smtp.starttls.enable", true);
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.starttls.enable", true);
+		properties.put("mail.smtp.port", "587");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
 
-        String username = "pavhane21@gmail.com"; // Your Gmail address
-        String password = "iesz jbni cayd eccs"; // Replace with App-Specific Password
+		String username = "pavhane21@gmail.com"; // Your Gmail address
+		String password = "iesz jbni cayd eccs"; // Replace with App-Specific Password
 
-        Session session = Session.getInstance(properties, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-		
+		Session session = Session.getInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
 //        session.setDebug(true); // Enable SMTP debugging for detailed logs
 
-        try {
-            // Create a MimeMessage object
-            Message message = new MimeMessage(session);
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setFrom(new InternetAddress(from));
-            message.setSubject(subject);
-            message.setText(text);
+		try {
+			// Create a MimeMessage object
+			MimeMessage message = new MimeMessage(session);
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.setFrom(new InternetAddress(from));
+			message.setSubject(subject);
+			message.setText(text);
 
-            // Send the email
-            Transport.send(message);
-            System.out.println("Email sent successfully.");
-            return true;
+			// Send the email
+			Transport.send(message);
+			System.out.println("Email sent successfully.");
+			return true;
 
-        } catch (Exception ex) {
-            System.out.println("Error: " + ex.getMessage());
-            ex.printStackTrace();
-            return false;
-        }
-		
+		} catch (Exception ex) {
+			System.out.println("Error: " + ex.getMessage());
+			ex.printStackTrace();
+			return false;
+		}
+
 	}
-	
-	
-	
-	
+
 }
-
-
-
-
-
-
-
-
