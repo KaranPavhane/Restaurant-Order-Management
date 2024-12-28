@@ -15,6 +15,14 @@ import com.project.service.CustomerServiceImpl;
 import com.project.service.ICustomerBillService;
 import com.project.service.ICustomerService;
 
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 public class CustomerOperations {
 
 	static ICustomerService custService = new CustomerServiceImpl();
@@ -220,6 +228,46 @@ public class CustomerOperations {
 		return custModel;
 	}
 	
+	
+public static boolean sendEmailToCustomer(String to, String from, String subject, String text) {
+		
+		Properties properties = new Properties();
+		properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.starttls.enable", true);
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+
+        String username = "pavhane21@gmail.com"; // Your Gmail address
+        String password = "iesz jbni cayd eccs"; // Replace with App-Specific Password
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+		
+//        session.setDebug(true); // Enable SMTP debugging for detailed logs
+
+        try {
+            // Create a MimeMessage object
+            Message message = new MimeMessage(session);
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setFrom(new InternetAddress(from));
+            message.setSubject(subject);
+            message.setText(text);
+
+            // Send the email
+            Transport.send(message);
+            System.out.println("Email sent successfully.");
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        }
+		
+	}
 	
 	
 	
